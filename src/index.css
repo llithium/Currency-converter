@@ -12,8 +12,3 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
-select {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}

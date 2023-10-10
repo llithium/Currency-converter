@@ -4,10 +4,6 @@ export default function CurrencyRow(props) {
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
-        <label htmlFor="amount">Amount</label>
-        <input name="amount" type="number"></input>
-      </div>
-      <div className="optionContainter">
         <label htmlFor="from">From</label>
         <select
           name="from"
@@ -22,6 +18,7 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
+        <input name="amount" type="number"></input>
       </div>
       <div className="optionContainter">
         <label htmlFor="to">To</label>
@@ -38,6 +35,7 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
+        <input name="amount" type="number"></input>
       </div>
     </div>
   );

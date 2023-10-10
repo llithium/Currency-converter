@@ -11,6 +11,7 @@ function App() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [fromCurrency, setFromCurrency] = useState();
   const [toCurrency, setToCurrency] = useState();
+  const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     async function getExchange() {
