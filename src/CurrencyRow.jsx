@@ -1,22 +1,35 @@
 import React from "react";
 
-export default function CurrencyRow() {
+export default function CurrencyRow(props) {
+  const { currencyOptions } = props;
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
-        <label for="amount">Amount</label>
+        <label htmlFor="amount">Amount</label>
         <input name="amount" type="number"></input>
       </div>
       <div className="optionContainter">
-        <label for="from">From</label>
+        <label htmlFor="from">From</label>
         <select name="from">
-          <option></option>
+          {currencyOptions.map((option, index) => {
+            return (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            );
+          })}
         </select>
       </div>
       <div className="optionContainter">
-        <label for="to">To</label>
+        <label htmlFor="to">To</label>
         <select name="to">
-          <option></option>
+          {currencyOptions.map((option, index) => {
+            return (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            );
+          })}
         </select>
       </div>
     </div>
