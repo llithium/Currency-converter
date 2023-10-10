@@ -9,6 +9,8 @@ const apiURL = "https://api.frankfurter.app";
 
 function App() {
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [fromCurrency, setFromCurrency] = useState();
+  const [toCurrency, setToCurrency] = useState();
 
   useEffect(() => {
     async function getExchange() {
@@ -17,6 +19,8 @@ function App() {
         response.data.base,
         ...Object.keys(response.data.rates),
       ]);
+      setFromCurrency(response.data.base);
+      setToCurrency(Object.keys(response.data.rates)[28]);
     }
     getExchange();
   }, []);
@@ -24,7 +28,13 @@ function App() {
   return (
     <div id="mainContainer">
       <h1>Currency Converter</h1>
-      <CurrencyRow currencyOptions={currencyOptions} />
+      <CurrencyRow
+        currencyOptions={currencyOptions}
+        fromCurrency={fromCurrency}
+        toCurrency={toCurrency}
+        onChangeFromCurrency={(event) => setFromCurrency(event.target.value)}
+        onChangeToCurrency={(event) => setToCurrency(event.target.value)}
+      />
     </div>
   );
 }
