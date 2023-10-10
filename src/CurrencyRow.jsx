@@ -18,8 +18,14 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
-        <input name="amount" type="number"></input>
+        <input
+          name="amount"
+          type="number"
+          value={props.fromAmount}
+          onChange={props.onChangeFromAmount}
+        ></input>
       </div>
+      <div id="equals">=</div>
       <div className="optionContainter">
         <label htmlFor="to">To</label>
         <select
@@ -35,7 +41,12 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
-        <input name="amount" type="number"></input>
+        <input
+          name="amount"
+          type="number"
+          value={props.toAmount}
+          onChange={props.onChangeToAmount}
+        ></input>
       </div>
     </div>
   );

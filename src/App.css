@@ -45,8 +45,16 @@ select {
 #currencyRowContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
+#equals {
+  color: rgba(255, 255, 255, 0.87);
+  font-weight: bold;
+  font-size: 5rem;
+  top: 5px;
+  position: relative;
+}
 @media (max-width: 700px) {
   #currencyRowContainer {
     flex-direction: column;
@@ -54,9 +62,4 @@ select {
     justify-content: center;
     align-items: center;
   }
-}
-
-select {
-  /* margin-left: 0.5rem;
-  margin-right: 0.5rem; */
 }
