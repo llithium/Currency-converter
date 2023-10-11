@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import CurrencyInput from "react-currency-input-field";
 
 export default function CurrencyRow(props) {
   return (
@@ -18,12 +19,15 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
-        <input
+        <CurrencyInput
           name="amount"
-          type="number"
           value={props.fromAmount}
-          onChange={props.onChangeFromAmount}
-        ></input>
+          onValueChange={(value) => {
+            props.onChangeFromAmount(value);
+          }}
+          intlConfig={props.fromCurrencyFormat}
+          allowNegativeValue="false"
+        />
       </div>
       <div id="equals">=</div>
       <div className="optionContainter">
@@ -41,12 +45,15 @@ export default function CurrencyRow(props) {
             );
           })}
         </select>
-        <input
+        <CurrencyInput
           name="amount"
-          type="number"
           value={props.toAmount}
-          onChange={props.onChangeToAmount}
-        ></input>
+          onValueChange={(value) => {
+            props.onChangeToAmount(value);
+          }}
+          intlConfig={props.toCurrencyFormat}
+          allowNegativeValue="false"
+        />
       </div>
     </div>
   );

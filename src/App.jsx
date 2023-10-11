@@ -14,14 +14,22 @@ function App() {
   const [exchangeRate, setExchangeRate] = useState();
   const [amount, setAmount] = useState(1);
   const [amountFrom, setAmountFrom] = useState(true);
+  const [fromCurrencyFormat, setFromCurrencyFormat] = useState({
+    locale: "en-US",
+    currency: "EUR",
+  });
+  const [toCurrencyFormat, setToCurrencyFormat] = useState({
+    locale: "en-US",
+    currency: "USD",
+  });
 
   let toAmount, fromAmount;
   if (amountFrom) {
     fromAmount = amount;
-    toAmount = amount * exchangeRate;
+    toAmount = (amount * exchangeRate).toFixed(2);
   } else {
     toAmount = amount;
-    fromAmount = amount / exchangeRate;
+    fromAmount = (amount / exchangeRate).toFixed(2);
   }
 
   useEffect(() => {
@@ -44,20 +52,36 @@ function App() {
         const response = await axios.get(
           apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`
         );
-        console.log(Object.values(response.data.rates)[0]);
         setExchangeRate(Object.values(response.data.rates)[0]);
       }
       setExchange();
     }
   }, [fromCurrency, toCurrency]);
 
-  function handleFromAmountChange(event) {
-    setAmount(event.target.value);
+  function handleFromAmountChange(value) {
+    setAmount(value);
     setAmountFrom(true);
   }
-  function handleToAmountChange(event) {
-    setAmount(event.target.value);
+  function handleToAmountChange(value) {
+    setAmount(value);
     setAmountFrom(false);
+  }
+
+  function handleChangeFromCurrency(event) {
+    const value = event.target.value;
+    setFromCurrency(value);
+    setFromCurrencyFormat({
+      locale: "en-US",
+      currency: value,
+    });
+  }
+  function handleChangeToCurrency(event) {
+    const value = event.target.value;
+    setToCurrency(value);
+    setToCurrencyFormat({
+      locale: "en-US",
+      currency: value,
+    });
   }
 
   return (
@@ -67,12 +91,14 @@ function App() {
         currencyOptions={currencyOptions}
         fromCurrency={fromCurrency}
         toCurrency={toCurrency}
-        onChangeFromCurrency={(event) => setFromCurrency(event.target.value)}
-        onChangeToCurrency={(event) => setToCurrency(event.target.value)}
+        onChangeFromCurrency={handleChangeFromCurrency}
+        onChangeToCurrency={handleChangeToCurrency}
         fromAmount={fromAmount}
         toAmount={toAmount}
         onChangeFromAmount={handleFromAmountChange}
         onChangeToAmount={handleToAmountChange}
+        fromCurrencyFormat={fromCurrencyFormat}
+        toCurrencyFormat={toCurrencyFormat}
       />
     </div>
   );
