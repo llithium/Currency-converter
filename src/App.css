@@ -13,7 +13,7 @@ input {
   height: 20px;
   border: 1px solid rgba(189, 189, 189, 0.87);
   border-radius: 0.3em;
-  background-color: #333;
+  background-color: #212121;
   padding: 0.25rem;
   color: rgba(255, 255, 255, 0.87);
 }
@@ -23,9 +23,18 @@ select {
   height: 2.3em;
   border: 1px solid rgba(189, 189, 189, 0.87);
   border-radius: 0.3em;
-  background-color: #333;
+  background-color: #212121;
   padding: 0.25rem;
   color: rgba(255, 255, 255, 0.87);
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-width: 1px !important;
+  border-color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.87) !important;
 }
 
 .optionContainter {
@@ -58,6 +67,20 @@ select {
   top: 5px;
   position: relative;
 }
+
+.fi {
+  height: 17px;
+  margin-right: 3px;
+  position: relative;
+  bottom: 0.7px;
+}
+
+.MuiSelect-select {
+  position: relative;
+  /* bottom: 20px; */
+  height: 222px;
+}
+
 @media (max-width: 700px) {
   #currencyRowContainer {
     flex-direction: column;

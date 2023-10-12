@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.13",
     "axios": "^1.5.1",
+    "flag-icons": "^6.11.1",
     "react": "^18.2.0",
     "react-currency-input-field": "^3.6.11",
     "react-dom": "^18.2.0"
