@@ -38,10 +38,16 @@ function App() {
   useEffect(() => {
     async function getExchange() {
       const response = await axios.get(apiURL + "/latest");
-      setCurrencyOptions([
+      let options = [Object.keys(response.data.rates)];
+      options = options[0];
+      options = [
+        ...options.slice(0, 9),
         response.data.base,
-        ...Object.keys(response.data.rates),
-      ]);
+        ...options.slice(9),
+      ];
+      console.log(options);
+
+      setCurrencyOptions([...options]);
       setFromCurrency(response.data.base);
       setToCurrency(Object.keys(response.data.rates)[28]);
       setExchangeRate(Object.values(response.data.rates)[28]);

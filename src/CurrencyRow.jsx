@@ -5,7 +5,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const flags = [
-  "fi-eu",
   "fi-au",
   "fi-bg",
   "fi-br",
@@ -15,6 +14,7 @@ const flags = [
   "fi-cz",
   "fi-dk",
   "fi-gb",
+  "fi-eu",
   "fi-hk",
   "fi-hu",
   "fi-id",
