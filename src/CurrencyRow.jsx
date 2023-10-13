@@ -49,7 +49,6 @@ export default function CurrencyRow(props) {
             m: 0.2,
             minWidth: 120,
             width: 209,
-            // height: 30,
             backgroundColor: "#212121",
             "& .MuiSvgIcon-root": {
               color: "rgba(255, 255, 255, 0.87)",
@@ -115,7 +114,6 @@ export default function CurrencyRow(props) {
             m: 0.2,
             minWidth: 120,
             width: 209,
-            // height: 30,
             backgroundColor: "#212121",
             "& .MuiSvgIcon-root": {
               color: "rgba(255, 255, 255, 0.87)",

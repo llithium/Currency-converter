@@ -4,6 +4,8 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import CurrencyRow from "./CurrencyRow";
 import axios from "axios";
+import CurrencyRates from "./CurrencyRates";
+import ModeSelection from "./ModeSelection";
 
 const apiURL = "https://api.frankfurter.app";
 
@@ -22,6 +24,7 @@ function App() {
     locale: "en-US",
     currency: "USD",
   });
+  const [viewRates, setViewRates] = useState(true);
 
   let toAmount, fromAmount;
   if (amountFrom) {
@@ -83,25 +86,55 @@ function App() {
       currency: value,
     });
   }
+  function handleViewRates() {
+    setViewRates(false);
+  }
+  function handleConvert() {
+    setViewRates(true);
+  }
 
-  return (
-    <div id="mainContainer">
-      <h1>Currency Converter</h1>
-      <CurrencyRow
-        currencyOptions={currencyOptions}
-        fromCurrency={fromCurrency}
-        toCurrency={toCurrency}
-        onChangeFromCurrency={handleChangeFromCurrency}
-        onChangeToCurrency={handleChangeToCurrency}
-        fromAmount={fromAmount}
-        toAmount={toAmount}
-        onChangeFromAmount={handleFromAmountChange}
-        onChangeToAmount={handleToAmountChange}
-        fromCurrencyFormat={fromCurrencyFormat}
-        toCurrencyFormat={toCurrencyFormat}
-      />
-    </div>
-  );
+  {
+    if (viewRates) {
+      return (
+        <div id="mainContainer">
+          <h1>Currency Converter</h1>
+          <div id="contentContainer">
+            <ModeSelection
+              handleConvert={handleConvert}
+              handleViewRates={handleViewRates}
+            />
+
+            <CurrencyRow
+              currencyOptions={currencyOptions}
+              fromCurrency={fromCurrency}
+              toCurrency={toCurrency}
+              onChangeFromCurrency={handleChangeFromCurrency}
+              onChangeToCurrency={handleChangeToCurrency}
+              fromAmount={fromAmount}
+              toAmount={toAmount}
+              onChangeFromAmount={handleFromAmountChange}
+              onChangeToAmount={handleToAmountChange}
+              fromCurrencyFormat={fromCurrencyFormat}
+              toCurrencyFormat={toCurrencyFormat}
+            />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div id="mainContainer">
+          <h1>Exchanage Rates</h1>
+          <div id="contentContainer">
+            <ModeSelection
+              handleConvert={handleConvert}
+              handleViewRates={handleViewRates}
+            />
+            <CurrencyRates />
+          </div>
+        </div>
+      );
+    }
+  }
 }
 
 export default App;
