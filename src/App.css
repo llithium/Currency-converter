@@ -44,10 +44,11 @@ select {
   align-content: center;
   align-items: center;
   width: fit-content;
-  border-radius: 0.3em;
+  border-radius: 10px;
   margin: 5px;
-  /* box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.3);
-  padding: 0.25rem; */
+  box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.3);
+  padding: 0.25rem;
+  background-color: white;
 }
 
 #mainContainer {
@@ -64,7 +65,7 @@ select {
   color: rgba(255, 255, 255, 0.87);
   font-weight: bold;
   font-size: 5rem;
-  top: 5px;
+  bottom: 5px;
   position: relative;
 }
 
@@ -92,11 +93,26 @@ select {
   margin-right: auto;
 }
 
+/* #buttonContainer {
+  display: flex;
+  justify-content: center;
+} */
+
+.MuiSelect-select {
+  background-color: aliceblue;
+}
+
 @media (max-width: 700px) {
   #currencyRowContainer {
     flex-direction: column;
     align-content: center;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media (max-width: 400px) {
+  #contentContainer {
+    width: 100%;
   }
 }

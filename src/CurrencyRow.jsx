@@ -3,6 +3,7 @@ import CurrencyInput from "react-currency-input-field";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { height } from "@mui/system";
 
 const flags = [
   "fi-au",
@@ -42,14 +43,13 @@ export default function CurrencyRow(props) {
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
-        <label htmlFor="from">From</label>
+        {/* <label htmlFor="from">From</label> */}
         <FormControl
           size="small"
           sx={{
             m: 0.2,
             minWidth: 120,
             width: 209,
-            backgroundColor: "#212121",
             "& .MuiSvgIcon-root": {
               color: "rgba(255, 255, 255, 0.87)",
             },
@@ -57,13 +57,12 @@ export default function CurrencyRow(props) {
         >
           <Select
             sx={{
-              minWidth: 120,
-              width: 209,
-              height: 30,
               color: "rgba(255, 255, 255, 0.87)",
               borderColor: "rgba(255, 255, 255, 0.87)",
+              borderRadius: "6px",
               backgroundColor: "#212121",
               textAlign: "left",
+              boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
             }}
             inputProps={{
               MenuProps: {
@@ -96,6 +95,13 @@ export default function CurrencyRow(props) {
           </Select>
         </FormControl>
         <CurrencyInput
+          style={{
+            height: "30.4px",
+            fontFamily: "Roboto, 'sans serif' ",
+            borderRadius: "6px",
+            boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
+            fontWeight: "600",
+          }}
           name="amount"
           value={props.fromAmount}
           onValueChange={(value) => {
@@ -107,14 +113,13 @@ export default function CurrencyRow(props) {
       </div>
       <div id="equals">=</div>
       <div className="optionContainter">
-        <label htmlFor="to">To</label>
+        {/* <label htmlFor="to">To</label> */}
         <FormControl
           size="small"
           sx={{
             m: 0.2,
             minWidth: 120,
             width: 209,
-            backgroundColor: "#212121",
             "& .MuiSvgIcon-root": {
               color: "rgba(255, 255, 255, 0.87)",
             },
@@ -122,13 +127,12 @@ export default function CurrencyRow(props) {
         >
           <Select
             sx={{
-              minWidth: 120,
-              width: 209,
-              height: 30,
               color: "rgba(255, 255, 255, 0.87)",
               borderColor: "rgba(255, 255, 255, 0.87)",
+              borderRadius: "6px",
               backgroundColor: "#212121",
               textAlign: "left",
+              boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
             }}
             inputProps={{
               MenuProps: {
@@ -161,6 +165,13 @@ export default function CurrencyRow(props) {
           </Select>
         </FormControl>
         <CurrencyInput
+          style={{
+            height: "30.4px",
+            fontFamily: "Roboto",
+            borderRadius: "6px",
+            boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
+            fontWeight: "600",
+          }}
           name="amount"
           value={props.toAmount}
           onValueChange={(value) => {
