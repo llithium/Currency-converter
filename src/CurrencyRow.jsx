@@ -3,9 +3,8 @@ import CurrencyInput from "react-currency-input-field";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { height } from "@mui/system";
 
-const flags = [
+export const flags = [
   "fi-au",
   "fi-bg",
   "fi-br",

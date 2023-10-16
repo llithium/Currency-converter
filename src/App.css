@@ -28,6 +28,28 @@ select {
   color: rgba(255, 255, 255, 0.87);
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  color: rgba(255, 255, 255, 0.87);
+  border-color: rgba(255, 255, 255, 0.87);
+  border-radius: 6px;
+  background-color: #212121;
+  text-align: cen;
+  box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.1);
+  height: 40px;
+  width: 209px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1.2em;
+  margin: 2px;
+  margin-bottom: 6px;
+  vertical-align: middle;
+}
+
 .MuiOutlinedInput-notchedOutline {
   border-width: 1px !important;
   border-color: rgba(255, 255, 255, 0.87) !important;
@@ -51,11 +73,32 @@ select {
   background-color: white;
 }
 
+.ratesOptionContainter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  margin: 5px;
+  box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.3);
+  padding: 0.25rem;
+  background-color: white;
+}
+
 #mainContainer {
   height: 100vh;
 }
 
 #currencyRowContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#currencyRatesContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,6 +144,11 @@ select {
 .MuiSelect-select {
   background-color: aliceblue;
 }
+
+/* .css-h4y409-MuiList-root {
+  padding: 0 !important;
+  padding-top: 4 !important;
+} */
 
 @media (max-width: 700px) {
   #currencyRowContainer {

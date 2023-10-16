@@ -25,6 +25,8 @@ function App() {
     currency: "USD",
   });
   const [viewRates, setViewRates] = useState(true);
+  const [viewExchangeRates, setViewExchangeRates] = useState([]);
+  const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState([]);
 
   let toAmount, fromAmount;
   if (amountFrom) {
@@ -48,6 +50,8 @@ function App() {
       console.log(options);
 
       setCurrencyOptions([...options]);
+      setViewExchangeRatesOptions([...Object.keys(response.data.rates)]);
+      console.log(viewExchangeRatesOptions[0]);
       setFromCurrency(response.data.base);
       setToCurrency(Object.keys(response.data.rates)[28]);
       setExchangeRate(Object.values(response.data.rates)[28]);
@@ -66,6 +70,19 @@ function App() {
       setExchange();
     }
   }, [fromCurrency, toCurrency]);
+
+  useEffect(() => {
+    async function setRates() {
+      const response = await axios.get(apiURL + `/latest?from=${fromCurrency}`);
+      const rates = [Object.values(response.data.rates)];
+      const ratesOptions = [Object.keys(response.data.rates)];
+
+      setViewExchangeRates([...rates]);
+      setViewExchangeRatesOptions([...ratesOptions]);
+      console.log(response.data);
+    }
+    setRates();
+  }, [fromCurrency]);
 
   function handleFromAmountChange(value) {
     setAmount(value);
@@ -135,7 +152,13 @@ function App() {
               handleConvert={handleConvert}
               handleViewRates={handleViewRates}
             />
-            <CurrencyRates />
+            <CurrencyRates
+              viewExchangeRatesOptions={viewExchangeRatesOptions}
+              viewExchangeRates={viewExchangeRates}
+              currencyOptions={currencyOptions}
+              fromCurrency={fromCurrency}
+              onChangeFromCurrency={handleChangeFromCurrency}
+            />
           </div>
         </div>
       );
