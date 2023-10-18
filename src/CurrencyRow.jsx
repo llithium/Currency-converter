@@ -42,7 +42,6 @@ export default function CurrencyRow(props) {
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
-        {/* <label htmlFor="from">From</label> */}
         <FormControl
           size="small"
           sx={{
@@ -110,9 +109,8 @@ export default function CurrencyRow(props) {
           allowNegativeValue="false"
         />
       </div>
-      <div id="equals">=</div>
+      <div className="equals">=</div>
       <div className="optionContainter">
-        {/* <label htmlFor="to">To</label> */}
         <FormControl
           size="small"
           sx={{

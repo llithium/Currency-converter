@@ -39,10 +39,10 @@ li {
   border-color: rgba(255, 255, 255, 0.87);
   border-radius: 6px;
   background-color: #212121;
-  text-align: cen;
   box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.1);
   height: 40px;
   width: 209px;
+  text-align: justify;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 1.2em;
   margin: 2px;
@@ -67,7 +67,7 @@ li {
   align-items: center;
   width: fit-content;
   border-radius: 10px;
-  margin: 5px;
+  margin: 8px;
   box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.3);
   padding: 0.25rem;
   background-color: white;
@@ -83,8 +83,11 @@ li {
   height: fit-content;
   border-radius: 10px;
   margin: 5px;
+  margin-top: 8.5px;
+  margin-left: 8px;
   box-shadow: 0 0 10px 0 rgba(26, 26, 26, 0.3);
   padding: 0.25rem;
+  padding-bottom: 0;
   background-color: white;
 }
 
@@ -100,16 +103,25 @@ li {
 
 #currencyRatesContainer {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: start;
+  margin-top: 26px;
+  padding-right: 3px;
 }
 
-#equals {
+.equals {
   color: rgba(255, 255, 255, 0.87);
   font-weight: bold;
   font-size: 5rem;
   bottom: 5px;
   position: relative;
+}
+
+#equalsRates {
+  position: relative;
+  bottom: 30px;
+  z-index: 0;
 }
 
 .fi {
@@ -119,14 +131,24 @@ li {
   bottom: 0.7px;
 }
 
+.exchangeRate {
+  text-align: right;
+  margin-right: 20px;
+  margin-left: 12px;
+}
+
 .MuiSelect-select {
   position: relative;
   /* bottom: 20px; */
   height: 222px;
 }
 
+button {
+  z-index: 10;
+}
+
 #contentContainer {
-  padding-top: 2em;
+  padding-top: 1.7em;
   padding-bottom: 2em;
   border-radius: 10px;
   background-color: #333;
@@ -136,10 +158,9 @@ li {
   margin-right: auto;
 }
 
-/* #buttonContainer {
-  display: flex;
-  justify-content: center;
-} */
+#buttonContainer {
+  margin-bottom: 20px;
+}
 
 .MuiSelect-select {
   background-color: aliceblue;
@@ -156,6 +177,19 @@ li {
     align-content: center;
     justify-content: center;
     align-items: center;
+  }
+
+  #currencyRatesContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #equalsRates {
+    position: relative;
+    bottom: 0;
+    z-index: 0;
+    margin-top: -35px;
+    margin-bottom: -20px;
   }
 }
 

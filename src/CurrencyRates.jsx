@@ -3,16 +3,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { flags } from "./CurrencyRow";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 
 export default function CurrencyRates(props) {
   return (
     <div id="currencyRatesContainer">
-      <div className="optionContainter">
+      <div id="rateOptionContainer" className="optionContainter">
         <FormControl
           size="small"
           sx={{
@@ -51,6 +46,7 @@ export default function CurrencyRates(props) {
             {props.currencyOptions.map((option, index) => {
               return (
                 <MenuItem
+                  key={index}
                   value={option}
                   sx={{
                     color: "rgba(255, 255, 255, 0.87)",
@@ -64,14 +60,20 @@ export default function CurrencyRates(props) {
           </Select>
         </FormControl>
       </div>
+      <div id="equalsRates" className="equals">
+        =
+      </div>
       <div className="ratesOptionContainter">
         <ul>
           {props.viewExchangeRatesOptions[0].map((option, index) => {
             return (
-              <li>
-                <span>{props.viewExchangeRates[0][index]}</span>
-                <span className={`fi ${flags[index]}`}></span>
+              <li key={index}>
+                <span className="exchangeRate">
+                  {props.viewExchangeRates[0][index]}
+                </span>
                 {option}
+                {/* TODO: Fix flags in rates viewer */}
+                {/* <span className={`fi ${flags[index]}`}></span> */}
               </li>
             );
           })}
