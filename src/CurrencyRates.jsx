@@ -67,7 +67,7 @@ export default function CurrencyRates(props) {
         <ul>
           {props.viewExchangeRatesOptions[0].map((option, index) => {
             return (
-              <li key={index}>
+              <li className="ratesList" key={index}>
                 <span className="exchangeRate">
                   {props.viewExchangeRates[0][index]}
                 </span>

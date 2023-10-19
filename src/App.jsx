@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import CurrencyRow from "./CurrencyRow";
 import axios from "axios";
@@ -63,7 +61,7 @@ function App() {
     if (fromCurrency != null && toCurrency != null) {
       async function setExchange() {
         const response = await axios.get(
-          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`
+          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
         );
         setExchangeRate(Object.values(response.data.rates)[0]);
       }
