@@ -5,11 +5,10 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 }
 
 input {
-  width: 15em;
+  width: 200px;
   height: 20px;
   border: 1px solid rgba(189, 189, 189, 0.87);
   border-radius: 0.3em;
@@ -19,7 +18,7 @@ input {
 }
 
 select {
-  width: 15.75em;
+  width: 200px;
   height: 2.3em;
   border: 1px solid rgba(189, 189, 189, 0.87);
   border-radius: 0.3em;
@@ -92,7 +91,7 @@ li {
 }
 
 #mainContainer {
-  height: 100vh;
+  height: auto;
 }
 
 #currencyRowContainer {
@@ -196,10 +195,26 @@ button {
     margin-top: -35px;
     margin-bottom: -20px;
   }
+
+  input {
+    min-width: 200px;
+  }
+
+  ul.MuiList-root {
+    min-width: 209px;
+  }
 }
 
 @media (max-width: 400px) {
   #contentContainer {
-    width: 100%;
+    min-width: 260px;
+  }
+
+  input {
+    width: 200px;
+  }
+
+  ul.MuiList-root {
+    width: 209px;
   }
 }
