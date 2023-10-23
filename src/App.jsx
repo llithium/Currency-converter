@@ -48,7 +48,6 @@ function App() {
       console.log(options);
 
       setCurrencyOptions([...options]);
-      setViewExchangeRatesOptions([...Object.keys(response.data.rates)]);
       console.log(viewExchangeRatesOptions[0]);
       setFromCurrency(response.data.base);
       setToCurrency(Object.keys(response.data.rates)[28]);
@@ -61,7 +60,7 @@ function App() {
     if (fromCurrency != null && toCurrency != null) {
       async function setExchange() {
         const response = await axios.get(
-          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
+          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`
         );
         setExchangeRate(Object.values(response.data.rates)[0]);
       }
@@ -80,7 +79,7 @@ function App() {
       console.log(response.data);
     }
     setRates();
-  }, [fromCurrency]);
+  }, [viewRates, fromCurrency]);
 
   function handleFromAmountChange(value) {
     setAmount(value);
