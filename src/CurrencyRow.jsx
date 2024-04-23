@@ -1,8 +1,6 @@
+import { Select, SelectItem } from "@nextui-org/react";
 import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 
 export const flags = [
   "fi-au",
@@ -42,56 +40,24 @@ export default function CurrencyRow(props) {
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
-        <FormControl
-          size="small"
-          sx={{
-            m: 0.2,
-            minWidth: 120,
-            width: 209,
-            "& .MuiSvgIcon-root": {
-              color: "rgba(255, 255, 255, 0.87)",
-            },
-          }}
-        >
+        <div>
           <Select
-            sx={{
-              color: "rgba(255, 255, 255, 0.87)",
-              borderColor: "rgba(255, 255, 255, 0.87)",
-              borderRadius: "6px",
-              backgroundColor: "#212121",
-              textAlign: "left",
-              boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
-            }}
-            inputProps={{
-              MenuProps: {
-                PaperProps: {
-                  sx: {
-                    backgroundColor: "#212121",
-                  },
-                },
-              },
-            }}
             name="from"
-            className="fromSelect"
+            className="max-w-xs"
             value={props.fromCurrency}
             onChange={props.onChangeFromCurrency}
             displayEmpty
           >
             {props.currencyOptions.map((option, index) => {
               return (
-                <MenuItem
-                  value={option}
-                  sx={{
-                    color: "rgba(255, 255, 255, 0.87)",
-                  }}
-                >
+                <SelectItem key={index} value={option}>
                   <span className={`fi ${flags[index]}`}></span>
                   {option}
-                </MenuItem>
+                </SelectItem>
               );
             })}
           </Select>
-        </FormControl>
+        </div>
         <CurrencyInput
           style={{
             height: "30.4px",
@@ -111,7 +77,7 @@ export default function CurrencyRow(props) {
       </div>
       <div className="equals">=</div>
       <div className="optionContainter">
-        <FormControl
+        <div
           size="small"
           sx={{
             m: 0.2,
@@ -123,44 +89,22 @@ export default function CurrencyRow(props) {
           }}
         >
           <Select
-            sx={{
-              color: "rgba(255, 255, 255, 0.87)",
-              borderColor: "rgba(255, 255, 255, 0.87)",
-              borderRadius: "6px",
-              backgroundColor: "#212121",
-              textAlign: "left",
-              boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
-            }}
-            inputProps={{
-              MenuProps: {
-                PaperProps: {
-                  sx: {
-                    backgroundColor: "#212121",
-                  },
-                },
-              },
-            }}
             name="to"
-            className="currencySelect"
+            className="max-w-xs"
             value={props.toCurrency}
             onChange={props.onChangeToCurrency}
             displayEmpty
           >
             {props.currencyOptions.map((option, index) => {
               return (
-                <MenuItem
-                  value={option}
-                  sx={{
-                    color: "rgba(255, 255, 255, 0.87)",
-                  }}
-                >
+                <SelectItem key={index} value={option}>
                   <span className={`fi ${flags[index]}`}></span>
                   {option}
-                </MenuItem>
+                </SelectItem>
               );
             })}
           </Select>
-        </FormControl>
+        </div>
         <CurrencyInput
           style={{
             height: "30.4px",

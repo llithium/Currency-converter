@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import CurrencyRow from "./CurrencyRow";
 import axios from "axios";
 import CurrencyRates from "./CurrencyRates";
