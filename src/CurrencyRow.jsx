@@ -37,21 +37,30 @@ export const flags = [
 ];
 
 export default function CurrencyRow(props) {
+  // {
+  //   console.log(props.currencyOptions);
+  // }
   return (
     <div id="currencyRowContainer">
       <div className="optionContainter">
         <div>
           <Select
+            label="Select Currency"
             name="from"
             className="max-w-xs"
-            value={props.fromCurrency}
-            onChange={props.onChangeFromCurrency}
-            displayEmpty
+            selectedKeys={[props.selectedFrom]}
+            onSelectionChange={props.onChangeFromCurrency}
           >
             {props.currencyOptions.map((option, index) => {
               return (
-                <SelectItem key={index} value={option}>
-                  <span className={`fi ${flags[index]}`}></span>
+                <SelectItem
+                  key={index}
+                  value={option}
+                  startContent={
+                    <span className={`fi ${flags[index]} rounded-sm`}></span>
+                  }
+                >
+                  {/* <span className={`fi ${flags[index]}`}></span> */}
                   {option}
                 </SelectItem>
               );
@@ -59,13 +68,7 @@ export default function CurrencyRow(props) {
           </Select>
         </div>
         <CurrencyInput
-          style={{
-            height: "30.4px",
-            fontFamily: "Roboto, 'sans serif' ",
-            borderRadius: "6px",
-            boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
-            fontWeight: "600",
-          }}
+          className="h-14 w-80 rounded-xl text-foreground"
           name="amount"
           value={props.fromAmount}
           onValueChange={(value) => {
@@ -77,28 +80,24 @@ export default function CurrencyRow(props) {
       </div>
       <div className="equals">=</div>
       <div className="optionContainter">
-        <div
-          size="small"
-          sx={{
-            m: 0.2,
-            minWidth: 120,
-            width: 209,
-            "& .MuiSvgIcon-root": {
-              color: "rgba(255, 255, 255, 0.87)",
-            },
-          }}
-        >
+        <div>
           <Select
+            label="Select Currency"
             name="to"
             className="max-w-xs"
             value={props.toCurrency}
-            onChange={props.onChangeToCurrency}
-            displayEmpty
+            selectedKeys={[props.selectedTo]}
+            onSelectionChange={props.onChangeToCurrency}
           >
             {props.currencyOptions.map((option, index) => {
               return (
-                <SelectItem key={index} value={option}>
-                  <span className={`fi ${flags[index]}`}></span>
+                <SelectItem
+                  key={index}
+                  value={option}
+                  startContent={
+                    <span className={`fi ${flags[index]} rounded-sm`}></span>
+                  }
+                >
                   {option}
                 </SelectItem>
               );
@@ -106,13 +105,7 @@ export default function CurrencyRow(props) {
           </Select>
         </div>
         <CurrencyInput
-          style={{
-            height: "30.4px",
-            fontFamily: "Roboto",
-            borderRadius: "6px",
-            boxShadow: "0 0 10px 0 rgba(26, 26, 26, 0.1)",
-            fontWeight: "600",
-          }}
+          className="h-14 w-80 rounded-xl text-foreground"
           name="amount"
           value={props.toAmount}
           onValueChange={(value) => {

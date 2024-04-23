@@ -11,8 +11,7 @@ export default function CurrencyRates(props) {
             label="Select Currency"
             className="max-w-xs"
             value={props.fromCurrency}
-            onChange={props.onChangeFromCurrency}
-            displayEmpty
+            onSelectionChange={props.onChangeFromCurrency}
           >
             {props.currencyOptions.map((option, index) => {
               return (
@@ -32,13 +31,11 @@ export default function CurrencyRates(props) {
         <ul>
           {props.viewExchangeRatesOptions[0].map((option, index) => {
             return (
-              <li className="ratesList" key={index}>
+              <li className="ratesList text-foreground" key={index}>
                 {props.viewExchangeRates[0][index]} {option}
                 <span
                   className={`exchangeRate fi ${currencyToFlag(option)}`}
                 ></span>
-                {/* TODO: Fix flags in rates viewer */}
-                {/* <span className={`fi ${flags[index]}`}></span> */}
               </li>
             );
           })}

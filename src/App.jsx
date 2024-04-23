@@ -24,7 +24,8 @@ function App() {
   const [viewRates, setViewRates] = useState(true);
   const [viewExchangeRates, setViewExchangeRates] = useState([]);
   const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState([]);
-
+  const [selectedFrom, setSelectedFrom] = useState(9);
+  const [selectedTo, setSelectedTo] = useState(29);
   let toAmount, fromAmount;
   if (amountFrom) {
     fromAmount = amount;
@@ -44,10 +45,8 @@ function App() {
         response.data.base,
         ...options.slice(9),
       ];
-      console.log(options);
 
       setCurrencyOptions([...options]);
-      console.log(viewExchangeRatesOptions[0]);
       setFromCurrency(response.data.base);
       setToCurrency(Object.keys(response.data.rates)[28]);
       setExchangeRate(Object.values(response.data.rates)[28]);
@@ -59,7 +58,7 @@ function App() {
     if (fromCurrency != null && toCurrency != null) {
       async function setExchange() {
         const response = await axios.get(
-          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`
+          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
         );
         setExchangeRate(Object.values(response.data.rates)[0]);
       }
@@ -72,10 +71,8 @@ function App() {
       const response = await axios.get(apiURL + `/latest?from=${fromCurrency}`);
       const rates = [Object.values(response.data.rates)];
       const ratesOptions = [Object.keys(response.data.rates)];
-
       setViewExchangeRates([...rates]);
       setViewExchangeRatesOptions([...ratesOptions]);
-      console.log(response.data);
     }
     setRates();
   }, [viewRates, fromCurrency]);
@@ -90,20 +87,57 @@ function App() {
   }
 
   function handleChangeFromCurrency(event) {
-    const value = event.target.value;
-    setFromCurrency(value);
-    setFromCurrencyFormat({
-      locale: "en-US",
-      currency: value,
-    });
+    const exchangeRates = currencyOptions;
+    const value = exchangeRates[event.currentKey];
+
+    if (value !== toCurrency) {
+      setFromCurrency(value);
+      setSelectedFrom(event.currentKey);
+      setFromCurrencyFormat({
+        locale: "en-US",
+        currency: value,
+      });
+    } else {
+      setToCurrency(fromCurrency);
+      setSelectedTo(currencyOptions.indexOf(fromCurrency));
+      setToCurrencyFormat({
+        locale: "en-US",
+        currency: fromCurrency,
+      });
+      setFromCurrency(toCurrency);
+      setSelectedFrom(currencyOptions.indexOf(toCurrency));
+      setFromCurrencyFormat({
+        locale: "en-US",
+        currency: toCurrency,
+      });
+    }
   }
   function handleChangeToCurrency(event) {
-    const value = event.target.value;
-    setToCurrency(value);
-    setToCurrencyFormat({
-      locale: "en-US",
-      currency: value,
-    });
+    const exchangeRates = currencyOptions;
+    const value = exchangeRates[event.currentKey];
+    console.log(fromCurrency);
+
+    if (value !== fromCurrency) {
+      setToCurrency(value);
+      setSelectedTo(event.currentKey);
+      setToCurrencyFormat({
+        locale: "en-US",
+        currency: value,
+      });
+    } else {
+      setToCurrency(fromCurrency);
+      setSelectedTo(currencyOptions.indexOf(fromCurrency));
+      setToCurrencyFormat({
+        locale: "en-US",
+        currency: fromCurrency,
+      });
+      setFromCurrency(toCurrency);
+      setSelectedFrom(currencyOptions.indexOf(toCurrency));
+      setFromCurrencyFormat({
+        locale: "en-US",
+        currency: toCurrency,
+      });
+    }
   }
   function handleViewRates() {
     setViewRates(false);
@@ -115,7 +149,7 @@ function App() {
   {
     if (viewRates) {
       return (
-        <div id="mainContainer">
+        <div className="h-screen" id="mainContainer">
           <h1>Currency Converter</h1>
           <div id="contentContainer">
             <ModeSelection
@@ -127,6 +161,8 @@ function App() {
               currencyOptions={currencyOptions}
               fromCurrency={fromCurrency}
               toCurrency={toCurrency}
+              selectedFrom={selectedFrom}
+              selectedTo={selectedTo}
               onChangeFromCurrency={handleChangeFromCurrency}
               onChangeToCurrency={handleChangeToCurrency}
               fromAmount={fromAmount}
