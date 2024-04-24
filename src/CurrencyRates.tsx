@@ -1,8 +1,15 @@
-import React from "react";
 import { flags } from "./CurrencyRow";
 import { Select, SelectItem } from "@nextui-org/react";
 
-export default function CurrencyRates(props) {
+interface CurrencyRatesProps {
+  viewExchangeRatesOptions: string[];
+  viewExchangeRates: number[];
+  currencyOptions: string[];
+  selectedFrom: string;
+  onChangeFromCurrency: Function;
+}
+
+export default function CurrencyRates(props: CurrencyRatesProps) {
   return (
     // ? Change to h-4/5 if issues on mobile
     <div
@@ -18,7 +25,7 @@ export default function CurrencyRates(props) {
               popoverContent: "bg-zinc-900 ",
             }}
             selectedKeys={[props.selectedFrom]}
-            onSelectionChange={props.onChangeFromCurrency}
+            onSelectionChange={(keys) => props.onChangeFromCurrency(keys)}
           >
             {props.currencyOptions.map((option, index) => {
               return (
@@ -40,7 +47,7 @@ export default function CurrencyRates(props) {
 
       <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">
         <ul className="h-full overflow-auto rounded-lg">
-          {props.viewExchangeRatesOptions[0].map((option, index) => {
+          {props.viewExchangeRatesOptions.map((option, index) => {
             return (
               <li
                 className="ratesList border-b border-zinc-900/60 bg-zinc-800 px-4 py-1 font-semibold text-foreground lg:py-3"
@@ -53,7 +60,7 @@ export default function CurrencyRates(props) {
                 {new Intl.NumberFormat(navigator.language, {
                   style: "currency",
                   currency: option,
-                }).format(props.viewExchangeRates[0][index])}{" "}
+                }).format(props.viewExchangeRates[index])}{" "}
               </li>
             );
           })}
@@ -63,7 +70,7 @@ export default function CurrencyRates(props) {
   );
 }
 
-function currencyToFlag(country) {
+function currencyToFlag(country: string) {
   switch (country) {
     case "AUD":
       return "fi-au";

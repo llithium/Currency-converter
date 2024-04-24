@@ -1,7 +1,11 @@
 import { Button, ButtonGroup } from "@nextui-org/react";
-import React from "react";
 
-export default function ModeSelection(props) {
+interface ModeSelectionProps {
+  handleConvert: Function;
+  handleViewRates: Function;
+}
+
+export default function ModeSelection(props: ModeSelectionProps) {
   return (
     <div id="buttonContainer" className=" mx-auto w-80">
       {/* <button onClick={props.handleConvert}>Convert</button>
@@ -10,15 +14,17 @@ export default function ModeSelection(props) {
       <ButtonGroup className="w-full">
         <Button
           className=" my-6 inline-block w-1/2  px-4 py-2"
-          size="small"
-          onClick={props.handleConvert}
+          onClick={() => {
+            props.handleConvert();
+          }}
         >
           Conversion
         </Button>
         <Button
           className="my-6 inline-block w-1/2  px-4 py-2"
-          size="small"
-          onClick={props.handleViewRates}
+          onClick={() => {
+            props.handleViewRates();
+          }}
         >
           Rates
         </Button>

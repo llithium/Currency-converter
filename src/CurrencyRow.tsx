@@ -1,5 +1,4 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import React, { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
 export const flags = [
@@ -36,7 +35,35 @@ export const flags = [
   "fi-za",
 ];
 
-export default function CurrencyRow(props) {
+export interface SelectKeys {
+  0: string;
+  anchorKey: string;
+  currentKey: string;
+}
+
+interface CurrencyRatesProps {
+  currencyOptions: string[];
+  fromCurrency: string;
+  toCurrency: string;
+  selectedFrom: string;
+  selectedTo: string;
+  onChangeFromCurrency: Function;
+  onChangeToCurrency: Function;
+  fromAmount: number;
+  toAmount: number;
+  onChangeFromAmount: Function;
+  onChangeToAmount: Function;
+  fromCurrencyFormat: {
+    locale: string;
+    currency: string;
+  };
+  toCurrencyFormat: {
+    locale: string;
+    currency: string;
+  };
+}
+
+export default function CurrencyRow(props: CurrencyRatesProps) {
   return (
     <div id="currencyRowContainer" className="xl:flex xl:flex-row">
       <div className="optionContainter mb-6 lg:mr-3">
@@ -49,7 +76,7 @@ export default function CurrencyRow(props) {
               popoverContent: "bg-zinc-900",
             }}
             selectedKeys={[props.selectedFrom]}
-            onSelectionChange={props.onChangeFromCurrency}
+            onSelectionChange={(keys) => props.onChangeFromCurrency(keys)}
           >
             {props.currencyOptions.map((option, index) => {
               return (
@@ -75,7 +102,7 @@ export default function CurrencyRow(props) {
             props.onChangeFromAmount(value);
           }}
           intlConfig={props.fromCurrencyFormat}
-          allowNegativeValue="false"
+          allowNegativeValue={false}
         />
       </div>
       <div className="optionContainter lg:ml-3">
@@ -89,7 +116,7 @@ export default function CurrencyRow(props) {
             }}
             value={props.toCurrency}
             selectedKeys={[props.selectedTo]}
-            onSelectionChange={props.onChangeToCurrency}
+            onSelectionChange={(keys) => props.onChangeToCurrency(keys)}
           >
             {props.currencyOptions.map((option, index) => {
               return (
@@ -115,7 +142,7 @@ export default function CurrencyRow(props) {
             props.onChangeToAmount(value);
           }}
           intlConfig={props.toCurrencyFormat}
-          allowNegativeValue="false"
+          allowNegativeValue={false}
         />
       </div>
     </div>

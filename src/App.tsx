@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CurrencyRow from "./CurrencyRow";
+import CurrencyRow, { SelectKeys } from "./CurrencyRow";
 import axios from "axios";
 import CurrencyRates from "./CurrencyRates";
 import ModeSelection from "./ModeSelection";
@@ -7,10 +7,10 @@ import ModeSelection from "./ModeSelection";
 const apiURL = "https://api.frankfurter.app";
 
 function App() {
-  const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [exchangeRate, setExchangeRate] = useState();
+  const [exchangeRate, setExchangeRate] = useState<number>(1);
   const [amount, setAmount] = useState(1);
   const [amountFrom, setAmountFrom] = useState(true);
   const [fromCurrencyFormat, setFromCurrencyFormat] = useState({
@@ -22,17 +22,19 @@ function App() {
     currency: "USD",
   });
   const [viewRates, setViewRates] = useState(true);
-  const [viewExchangeRates, setViewExchangeRates] = useState([]);
-  const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState([]);
-  const [selectedFrom, setSelectedFrom] = useState(9);
-  const [selectedTo, setSelectedTo] = useState(29);
-  let toAmount, fromAmount;
+  const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
+  const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState<
+    string[]
+  >([]);
+  const [selectedFrom, setSelectedFrom] = useState("9");
+  const [selectedTo, setSelectedTo] = useState("29");
+  let toAmount: number, fromAmount: number;
   if (amountFrom) {
     fromAmount = amount;
-    toAmount = (amount * exchangeRate).toFixed(2);
+    toAmount = parseFloat((amount * exchangeRate).toFixed(2));
   } else {
     toAmount = amount;
-    fromAmount = (amount / exchangeRate).toFixed(2);
+    fromAmount = parseFloat((amount / exchangeRate).toFixed(2));
   }
 
   useEffect(() => {
@@ -50,8 +52,7 @@ function App() {
       if (fromCurrency) {
         try {
           let response = await axios.get(apiURL + "/latest");
-          let options = [Object.keys(response.data.rates)];
-          options = options[0];
+          let options = [Object.keys(response.data.rates)][0];
           options = [
             ...options.slice(0, 9),
             response.data.base,
@@ -85,10 +86,8 @@ function App() {
               console.log(error);
             }
           }
-
           setFromCurrency(response.data.base);
-
-          setExchangeRate(Object.values(response.data.rates)[0]);
+          setExchangeRate(Object.values<number>(response.data.rates)[0]);
           setFromCurrencyFormat({
             locale: navigator.language,
             currency: fromCurrency,
@@ -100,8 +99,7 @@ function App() {
         if (toCurrency) {
           try {
             const response = await axios.get(apiURL + "/latest");
-            let options = [Object.keys(response.data.rates)];
-            options = options[0];
+            let options = [Object.keys(response.data.rates)][0];
             options = [
               ...options.slice(0, 9),
               response.data.base,
@@ -129,8 +127,7 @@ function App() {
         } else {
           try {
             const response = await axios.get(apiURL + "/latest");
-            let options = [Object.keys(response.data.rates)];
-            options = options[0];
+            let options = [Object.keys(response.data.rates)][0];
             options = [
               ...options.slice(0, 9),
               response.data.base,
@@ -140,7 +137,7 @@ function App() {
             setCurrencyOptions([...options]);
             setFromCurrency(response.data.base);
             setToCurrency(Object.keys(response.data.rates)[28]);
-            setExchangeRate(Object.values(response.data.rates)[28]);
+            setExchangeRate(Object.values<number>(response.data.rates)[28]);
           } catch (error) {
             console.log(error);
           }
@@ -157,7 +154,7 @@ function App() {
           const response = await axios.get(
             apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
           );
-          setExchangeRate(Object.values(response.data.rates)[0]);
+          setExchangeRate(Object.values<number>(response.data.rates)[0]);
         } catch (error) {
           console.log(error);
         }
@@ -172,8 +169,9 @@ function App() {
         const response = await axios.get(
           apiURL + `/latest?from=${fromCurrency}`,
         );
-        const rates = [Object.values(response.data.rates)];
-        const ratesOptions = [Object.keys(response.data.rates)];
+
+        const rates = [Object.values<number>(response.data.rates)][0];
+        const ratesOptions = [Object.keys(response.data.rates)][0];
         setViewExchangeRates([...rates]);
         setViewExchangeRatesOptions([...ratesOptions]);
       } catch (error) {
@@ -183,25 +181,25 @@ function App() {
     setRates();
   }, [viewRates, fromCurrency]);
 
-  function handleFromAmountChange(value) {
+  function handleFromAmountChange(value: number) {
     setAmount(value);
     setAmountFrom(true);
   }
-  function handleToAmountChange(value) {
+  function handleToAmountChange(value: number) {
     setAmount(value);
     setAmountFrom(false);
   }
 
-  function handleChangeFromCurrency(event) {
+  function handleChangeFromCurrency(keys: SelectKeys) {
     const exchangeRates = currencyOptions;
-    const value = exchangeRates[event.currentKey];
+    const value = exchangeRates[parseInt(keys.currentKey)];
 
     if (value) {
       if (value !== toCurrency) {
         setFromCurrency(value);
         localStorage.setItem("fromCurrency", value);
-        setSelectedFrom(event.currentKey);
-        localStorage.setItem("selectedFromCurrency", event.currentKey);
+        setSelectedFrom(keys.currentKey);
+        localStorage.setItem("selectedFromCurrency", keys.currentKey);
         setFromCurrencyFormat({
           locale: navigator.language,
           currency: value,
@@ -209,7 +207,7 @@ function App() {
       } else {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
-        setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
         localStorage.setItem("selectedtoCurrency", fromCurrency);
         setToCurrencyFormat({
           locale: navigator.language,
@@ -217,10 +215,10 @@ function App() {
         });
         setFromCurrency(toCurrency);
         localStorage.setItem("fromCurrency", toCurrency);
-        setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
         localStorage.setItem(
           "selectedFromCurrency",
-          currencyOptions.indexOf(toCurrency),
+          currencyOptions.indexOf(toCurrency).toString(),
         );
         setFromCurrencyFormat({
           locale: navigator.language,
@@ -230,16 +228,16 @@ function App() {
     } else {
     }
   }
-  function handleChangeToCurrency(event) {
+  function handleChangeToCurrency(keys: SelectKeys) {
     const exchangeRates = currencyOptions;
-    const value = exchangeRates[event.currentKey];
+    const value = exchangeRates[parseInt(keys.currentKey)];
 
     if (value) {
       if (value !== fromCurrency) {
         setToCurrency(value);
         localStorage.setItem("toCurrency", value);
-        setSelectedTo(event.currentKey);
-        localStorage.setItem("selectedToCurrency", event.currentKey);
+        setSelectedTo(keys.currentKey);
+        localStorage.setItem("selectedToCurrency", keys.currentKey);
         setToCurrencyFormat({
           locale: navigator.language,
           currency: value,
@@ -247,10 +245,10 @@ function App() {
       } else {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
-        setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
         localStorage.setItem(
           "selectedToCurrency",
-          currencyOptions.indexOf(fromCurrency),
+          currencyOptions.indexOf(fromCurrency).toString(),
         );
         setToCurrencyFormat({
           locale: navigator.language,
@@ -258,10 +256,10 @@ function App() {
         });
         setFromCurrency(toCurrency);
         localStorage.setItem("fromCurrency", toCurrency);
-        setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
         localStorage.setItem(
           "selectedFromCurrency",
-          currencyOptions.indexOf(toCurrency),
+          currencyOptions.indexOf(toCurrency).toString(),
         );
         setFromCurrencyFormat({
           locale: navigator.language,
