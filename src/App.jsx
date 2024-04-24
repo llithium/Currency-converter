@@ -37,19 +37,23 @@ function App() {
 
   useEffect(() => {
     async function getExchange() {
-      const response = await axios.get(apiURL + "/latest");
-      let options = [Object.keys(response.data.rates)];
-      options = options[0];
-      options = [
-        ...options.slice(0, 9),
-        response.data.base,
-        ...options.slice(9),
-      ];
+      try {
+        const response = await axios.get(apiURL + "/latest");
+        let options = [Object.keys(response.data.rates)];
+        options = options[0];
+        options = [
+          ...options.slice(0, 9),
+          response.data.base,
+          ...options.slice(9),
+        ];
 
-      setCurrencyOptions([...options]);
-      setFromCurrency(response.data.base);
-      setToCurrency(Object.keys(response.data.rates)[28]);
-      setExchangeRate(Object.values(response.data.rates)[28]);
+        setCurrencyOptions([...options]);
+        setFromCurrency(response.data.base);
+        setToCurrency(Object.keys(response.data.rates)[28]);
+        setExchangeRate(Object.values(response.data.rates)[28]);
+      } catch (error) {
+        console.log(error);
+      }
     }
     getExchange();
   }, []);
@@ -57,10 +61,14 @@ function App() {
   useEffect(() => {
     if (fromCurrency != null && toCurrency != null) {
       async function setExchange() {
-        const response = await axios.get(
-          apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
-        );
-        setExchangeRate(Object.values(response.data.rates)[0]);
+        try {
+          const response = await axios.get(
+            apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
+          );
+          setExchangeRate(Object.values(response.data.rates)[0]);
+        } catch (error) {
+          console.log(error);
+        }
       }
       setExchange();
     }
@@ -68,11 +76,17 @@ function App() {
 
   useEffect(() => {
     async function setRates() {
-      const response = await axios.get(apiURL + `/latest?from=${fromCurrency}`);
-      const rates = [Object.values(response.data.rates)];
-      const ratesOptions = [Object.keys(response.data.rates)];
-      setViewExchangeRates([...rates]);
-      setViewExchangeRatesOptions([...ratesOptions]);
+      try {
+        const response = await axios.get(
+          apiURL + `/latest?from=${fromCurrency}`,
+        );
+        const rates = [Object.values(response.data.rates)];
+        const ratesOptions = [Object.keys(response.data.rates)];
+        setViewExchangeRates([...rates]);
+        setViewExchangeRatesOptions([...ratesOptions]);
+      } catch (error) {
+        console.log(error);
+      }
     }
     setRates();
   }, [viewRates, fromCurrency]);
@@ -90,53 +104,58 @@ function App() {
     const exchangeRates = currencyOptions;
     const value = exchangeRates[event.currentKey];
 
-    if (value !== toCurrency) {
-      setFromCurrency(value);
-      setSelectedFrom(event.currentKey);
-      setFromCurrencyFormat({
-        locale: "en-US",
-        currency: value,
-      });
+    if (value) {
+      if (value !== toCurrency) {
+        setFromCurrency(value);
+        setSelectedFrom(event.currentKey);
+        setFromCurrencyFormat({
+          locale: "en-US",
+          currency: value,
+        });
+      } else {
+        setToCurrency(fromCurrency);
+        setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        setToCurrencyFormat({
+          locale: "en-US",
+          currency: fromCurrency,
+        });
+        setFromCurrency(toCurrency);
+        setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        setFromCurrencyFormat({
+          locale: "en-US",
+          currency: toCurrency,
+        });
+      }
     } else {
-      setToCurrency(fromCurrency);
-      setSelectedTo(currencyOptions.indexOf(fromCurrency));
-      setToCurrencyFormat({
-        locale: "en-US",
-        currency: fromCurrency,
-      });
-      setFromCurrency(toCurrency);
-      setSelectedFrom(currencyOptions.indexOf(toCurrency));
-      setFromCurrencyFormat({
-        locale: "en-US",
-        currency: toCurrency,
-      });
     }
   }
   function handleChangeToCurrency(event) {
     const exchangeRates = currencyOptions;
     const value = exchangeRates[event.currentKey];
-    console.log(fromCurrency);
 
-    if (value !== fromCurrency) {
-      setToCurrency(value);
-      setSelectedTo(event.currentKey);
-      setToCurrencyFormat({
-        locale: "en-US",
-        currency: value,
-      });
+    if (value) {
+      if (value !== fromCurrency) {
+        setToCurrency(value);
+        setSelectedTo(event.currentKey);
+        setToCurrencyFormat({
+          locale: "en-US",
+          currency: value,
+        });
+      } else {
+        setToCurrency(fromCurrency);
+        setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        setToCurrencyFormat({
+          locale: "en-US",
+          currency: fromCurrency,
+        });
+        setFromCurrency(toCurrency);
+        setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        setFromCurrencyFormat({
+          locale: "en-US",
+          currency: toCurrency,
+        });
+      }
     } else {
-      setToCurrency(fromCurrency);
-      setSelectedTo(currencyOptions.indexOf(fromCurrency));
-      setToCurrencyFormat({
-        locale: "en-US",
-        currency: fromCurrency,
-      });
-      setFromCurrency(toCurrency);
-      setSelectedFrom(currencyOptions.indexOf(toCurrency));
-      setFromCurrencyFormat({
-        locale: "en-US",
-        currency: toCurrency,
-      });
     }
   }
   function handleViewRates() {
@@ -145,13 +164,15 @@ function App() {
   function handleConvert() {
     setViewRates(true);
   }
-
-  {
-    if (viewRates) {
-      return (
-        <div className="h-screen" id="mainContainer">
-          <h1>Currency Converter</h1>
-          <div id="contentContainer">
+  return (
+    <div className="h-screen min-h-screen">
+      {viewRates ? (
+        // <div className="h-screen" id="mainContainer">
+        <>
+          <div
+            className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
+            id="contentContainer"
+          >
             <ModeSelection
               handleConvert={handleConvert}
               handleViewRates={handleViewRates}
@@ -173,29 +194,27 @@ function App() {
               toCurrencyFormat={toCurrencyFormat}
             />
           </div>
+        </>
+      ) : (
+        <div
+          className="mx-auto flex h-screen min-h-screen w-full flex-col items-center  bg-content1 pb-12 "
+          id="contentContainer"
+        >
+          <ModeSelection
+            handleConvert={handleConvert}
+            handleViewRates={handleViewRates}
+          />
+          <CurrencyRates
+            viewExchangeRatesOptions={viewExchangeRatesOptions}
+            viewExchangeRates={viewExchangeRates}
+            currencyOptions={currencyOptions}
+            selectedFrom={selectedFrom}
+            onChangeFromCurrency={handleChangeFromCurrency}
+          />
         </div>
-      );
-    } else {
-      return (
-        <div id="mainContainer">
-          <h1>Exchanage Rates</h1>
-          <div id="contentContainer">
-            <ModeSelection
-              handleConvert={handleConvert}
-              handleViewRates={handleViewRates}
-            />
-            <CurrencyRates
-              viewExchangeRatesOptions={viewExchangeRatesOptions}
-              viewExchangeRates={viewExchangeRates}
-              currencyOptions={currencyOptions}
-              fromCurrency={fromCurrency}
-              onChangeFromCurrency={handleChangeFromCurrency}
-            />
-          </div>
-        </div>
-      );
-    }
-  }
+      )}
+    </div>
+  );
 }
 
 export default App;

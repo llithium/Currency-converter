@@ -37,30 +37,30 @@ export const flags = [
 ];
 
 export default function CurrencyRow(props) {
-  // {
-  //   console.log(props.currencyOptions);
-  // }
   return (
-    <div id="currencyRowContainer">
-      <div className="optionContainter">
+    <div id="currencyRowContainer" className="xl:flex xl:flex-row">
+      <div className="optionContainter mb-6 lg:mr-3">
         <div>
           <Select
-            label="Select Currency"
+            label="From"
             name="from"
-            className="max-w-xs"
+            className="max-w-xs text-foreground"
+            classNames={{
+              popoverContent: "bg-zinc-900",
+            }}
             selectedKeys={[props.selectedFrom]}
             onSelectionChange={props.onChangeFromCurrency}
           >
             {props.currencyOptions.map((option, index) => {
               return (
                 <SelectItem
+                  className="text-white"
                   key={index}
                   value={option}
                   startContent={
                     <span className={`fi ${flags[index]} rounded-sm`}></span>
                   }
                 >
-                  {/* <span className={`fi ${flags[index]}`}></span> */}
                   {option}
                 </SelectItem>
               );
@@ -68,7 +68,7 @@ export default function CurrencyRow(props) {
           </Select>
         </div>
         <CurrencyInput
-          className="h-14 w-80 rounded-xl text-foreground"
+          className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
           name="amount"
           value={props.fromAmount}
           onValueChange={(value) => {
@@ -78,13 +78,15 @@ export default function CurrencyRow(props) {
           allowNegativeValue="false"
         />
       </div>
-      <div className="equals">=</div>
-      <div className="optionContainter">
+      <div className="optionContainter lg:ml-3">
         <div>
           <Select
-            label="Select Currency"
+            label="To"
             name="to"
-            className="max-w-xs"
+            className="max-w-xs text-foreground"
+            classNames={{
+              popoverContent: "bg-zinc-900",
+            }}
             value={props.toCurrency}
             selectedKeys={[props.selectedTo]}
             onSelectionChange={props.onChangeToCurrency}
@@ -92,6 +94,7 @@ export default function CurrencyRow(props) {
             {props.currencyOptions.map((option, index) => {
               return (
                 <SelectItem
+                  className="text-white"
                   key={index}
                   value={option}
                   startContent={
@@ -105,7 +108,7 @@ export default function CurrencyRow(props) {
           </Select>
         </div>
         <CurrencyInput
-          className="h-14 w-80 rounded-xl text-foreground"
+          className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
           name="amount"
           value={props.toAmount}
           onValueChange={(value) => {
