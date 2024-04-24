@@ -37,22 +37,62 @@ function App() {
 
   useEffect(() => {
     async function getExchange() {
-      try {
-        const response = await axios.get(apiURL + "/latest");
-        let options = [Object.keys(response.data.rates)];
-        options = options[0];
-        options = [
-          ...options.slice(0, 9),
-          response.data.base,
-          ...options.slice(9),
-        ];
+      const selectedFromCurrency = localStorage.getItem("selectedFromCurrency");
+      const selectedToCurrency = localStorage.getItem("selectedToCurrency");
+      const fromCurrency = localStorage.getItem("fromCurrency");
+      const toCurrency = localStorage.getItem("toCurrency");
 
-        setCurrencyOptions([...options]);
-        setFromCurrency(response.data.base);
-        setToCurrency(Object.keys(response.data.rates)[28]);
-        setExchangeRate(Object.values(response.data.rates)[28]);
-      } catch (error) {
-        console.log(error);
+      selectedFromCurrency && setSelectedFrom(selectedFromCurrency);
+      selectedToCurrency && setSelectedTo(selectedToCurrency);
+      fromCurrency && setFromCurrency(fromCurrency);
+      toCurrency && setToCurrency(toCurrency);
+
+      if (fromCurrency && toCurrency) {
+        try {
+          let response = await axios.get(apiURL + "/latest");
+          let options = [Object.keys(response.data.rates)];
+          options = options[0];
+          options = [
+            ...options.slice(0, 9),
+            response.data.base,
+            ...options.slice(9),
+          ];
+          setCurrencyOptions([...options]);
+          response = await axios.get(
+            apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
+          );
+          setFromCurrency(response.data.base);
+          setToCurrency(toCurrency);
+          setExchangeRate(Object.values(response.data.rates)[0]);
+          setFromCurrencyFormat({
+            locale: "en-US",
+            currency: fromCurrency,
+          });
+          setToCurrencyFormat({
+            locale: "en-US",
+            currency: toCurrency,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          const response = await axios.get(apiURL + "/latest");
+          let options = [Object.keys(response.data.rates)];
+          options = options[0];
+          options = [
+            ...options.slice(0, 9),
+            response.data.base,
+            ...options.slice(9),
+          ];
+
+          setCurrencyOptions([...options]);
+          setFromCurrency(response.data.base);
+          setToCurrency(Object.keys(response.data.rates)[28]);
+          setExchangeRate(Object.values(response.data.rates)[28]);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
     getExchange();
@@ -107,20 +147,29 @@ function App() {
     if (value) {
       if (value !== toCurrency) {
         setFromCurrency(value);
+        localStorage.setItem("fromCurrency", value);
         setSelectedFrom(event.currentKey);
+        localStorage.setItem("selectedFromCurrency", event.currentKey);
         setFromCurrencyFormat({
           locale: "en-US",
           currency: value,
         });
       } else {
         setToCurrency(fromCurrency);
+        localStorage.setItem("toCurrency", fromCurrency);
         setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        localStorage.setItem("selectedtoCurrency", fromCurrency);
         setToCurrencyFormat({
           locale: "en-US",
           currency: fromCurrency,
         });
         setFromCurrency(toCurrency);
+        localStorage.setItem("fromCurrency", toCurrency);
         setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        localStorage.setItem(
+          "selectedFromCurrency",
+          currencyOptions.indexOf(toCurrency),
+        );
         setFromCurrencyFormat({
           locale: "en-US",
           currency: toCurrency,
@@ -136,20 +185,32 @@ function App() {
     if (value) {
       if (value !== fromCurrency) {
         setToCurrency(value);
+        localStorage.setItem("toCurrency", value);
         setSelectedTo(event.currentKey);
+        localStorage.setItem("selectedToCurrency", event.currentKey);
         setToCurrencyFormat({
           locale: "en-US",
           currency: value,
         });
       } else {
         setToCurrency(fromCurrency);
+        localStorage.setItem("toCurrency", fromCurrency);
         setSelectedTo(currencyOptions.indexOf(fromCurrency));
+        localStorage.setItem(
+          "selectedToCurrency",
+          currencyOptions.indexOf(fromCurrency),
+        );
         setToCurrencyFormat({
           locale: "en-US",
           currency: fromCurrency,
         });
         setFromCurrency(toCurrency);
+        localStorage.setItem("fromCurrency", toCurrency);
         setSelectedFrom(currencyOptions.indexOf(toCurrency));
+        localStorage.setItem(
+          "selectedFromCurrency",
+          currencyOptions.indexOf(toCurrency),
+        );
         setFromCurrencyFormat({
           locale: "en-US",
           currency: toCurrency,
