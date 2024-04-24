@@ -49,8 +49,8 @@ interface CurrencyRatesProps {
   selectedTo: string;
   onChangeFromCurrency: Function;
   onChangeToCurrency: Function;
-  fromAmount: number;
-  toAmount: number;
+  fromAmount: number | null;
+  toAmount: number | null;
   onChangeFromAmount: Function;
   onChangeToAmount: Function;
   fromCurrencyFormat: {
@@ -97,7 +97,7 @@ export default function CurrencyRow(props: CurrencyRatesProps) {
         <CurrencyInput
           className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
           name="amount"
-          value={props.fromAmount}
+          value={props.fromAmount ? props.fromAmount : ""}
           onValueChange={(value) => {
             props.onChangeFromAmount(value);
           }}
@@ -137,7 +137,7 @@ export default function CurrencyRow(props: CurrencyRatesProps) {
         <CurrencyInput
           className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
           name="amount"
-          value={props.toAmount}
+          value={props.toAmount ? props.toAmount : ""}
           onValueChange={(value) => {
             props.onChangeToAmount(value);
           }}

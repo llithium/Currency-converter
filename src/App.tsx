@@ -28,13 +28,25 @@ function App() {
   >([]);
   const [selectedFrom, setSelectedFrom] = useState("9");
   const [selectedTo, setSelectedTo] = useState("29");
-  let toAmount: number, fromAmount: number;
+  let toAmount: number | null, fromAmount: number | null;
   if (amountFrom) {
-    fromAmount = amount;
-    toAmount = parseFloat((amount * exchangeRate).toFixed(2));
+    console.log(typeof amount);
+
+    if (amount >= 0) {
+      fromAmount = amount;
+      toAmount = parseFloat((amount * exchangeRate).toFixed(2));
+    } else {
+      fromAmount = null;
+      toAmount = 0;
+    }
   } else {
-    toAmount = amount;
-    fromAmount = parseFloat((amount / exchangeRate).toFixed(2));
+    if (amount >= 0) {
+      toAmount = amount;
+      fromAmount = parseFloat((amount / exchangeRate).toFixed(2));
+    } else {
+      toAmount = null;
+      fromAmount = 0;
+    }
   }
 
   useEffect(() => {
@@ -278,7 +290,6 @@ function App() {
   return (
     <div className="h-screen min-h-screen">
       {viewRates ? (
-        // <div className="h-screen" id="mainContainer">
         <>
           <div
             className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
