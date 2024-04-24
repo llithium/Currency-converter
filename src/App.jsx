@@ -14,11 +14,11 @@ function App() {
   const [amount, setAmount] = useState(1);
   const [amountFrom, setAmountFrom] = useState(true);
   const [fromCurrencyFormat, setFromCurrencyFormat] = useState({
-    locale: "en-US",
+    locale: navigator.language,
     currency: "EUR",
   });
   const [toCurrencyFormat, setToCurrencyFormat] = useState({
-    locale: "en-US",
+    locale: navigator.language,
     currency: "USD",
   });
   const [viewRates, setViewRates] = useState(true);
@@ -65,11 +65,11 @@ function App() {
           setToCurrency(toCurrency);
           setExchangeRate(Object.values(response.data.rates)[0]);
           setFromCurrencyFormat({
-            locale: "en-US",
+            locale: navigator.language,
             currency: fromCurrency,
           });
           setToCurrencyFormat({
-            locale: "en-US",
+            locale: navigator.language,
             currency: toCurrency,
           });
         } catch (error) {
@@ -151,7 +151,7 @@ function App() {
         setSelectedFrom(event.currentKey);
         localStorage.setItem("selectedFromCurrency", event.currentKey);
         setFromCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: value,
         });
       } else {
@@ -160,7 +160,7 @@ function App() {
         setSelectedTo(currencyOptions.indexOf(fromCurrency));
         localStorage.setItem("selectedtoCurrency", fromCurrency);
         setToCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: fromCurrency,
         });
         setFromCurrency(toCurrency);
@@ -171,7 +171,7 @@ function App() {
           currencyOptions.indexOf(toCurrency),
         );
         setFromCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: toCurrency,
         });
       }
@@ -189,7 +189,7 @@ function App() {
         setSelectedTo(event.currentKey);
         localStorage.setItem("selectedToCurrency", event.currentKey);
         setToCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: value,
         });
       } else {
@@ -201,7 +201,7 @@ function App() {
           currencyOptions.indexOf(fromCurrency),
         );
         setToCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: fromCurrency,
         });
         setFromCurrency(toCurrency);
@@ -212,7 +212,7 @@ function App() {
           currencyOptions.indexOf(toCurrency),
         );
         setFromCurrencyFormat({
-          locale: "en-US",
+          locale: navigator.language,
           currency: toCurrency,
         });
       }
