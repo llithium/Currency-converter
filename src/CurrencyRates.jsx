@@ -38,7 +38,7 @@ export default function CurrencyRates(props) {
         </div>
       </div>
 
-      <div className="ratesOptionContainter h-full max-h-full w-80 lg:ml-3">
+      <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">
         <ul className="h-full overflow-auto rounded-lg">
           {props.viewExchangeRatesOptions[0].map((option, index) => {
             return (
@@ -46,10 +46,14 @@ export default function CurrencyRates(props) {
                 className="ratesList border-b border-zinc-900/60 bg-zinc-800 px-4 py-1 font-semibold text-foreground lg:py-3"
                 key={index}
               >
-                {props.viewExchangeRates[0][index]} {option}
+                {" "}
                 <span
-                  className={`exchangeRate fi ${currencyToFlag(option)} ml-2  rounded-sm`}
+                  className={`exchangeRate fi ${currencyToFlag(option)} mr-2  rounded-sm`}
                 ></span>
+                {new Intl.NumberFormat(navigator.language, {
+                  style: "currency",
+                  currency: option,
+                }).format(props.viewExchangeRates[0][index])}{" "}
               </li>
             );
           })}
