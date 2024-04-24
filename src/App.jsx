@@ -47,7 +47,7 @@ function App() {
       fromCurrency && setFromCurrency(fromCurrency);
       toCurrency && setToCurrency(toCurrency);
 
-      if (fromCurrency && toCurrency) {
+      if (fromCurrency) {
         try {
           let response = await axios.get(apiURL + "/latest");
           let options = [Object.keys(response.data.rates)];
@@ -58,40 +58,92 @@ function App() {
             ...options.slice(9),
           ];
           setCurrencyOptions([...options]);
-          response = await axios.get(
-            apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
-          );
+          if (toCurrency) {
+            try {
+              response = await axios.get(
+                apiURL + `/latest?from=${fromCurrency}&to=${toCurrency}`,
+              );
+              setToCurrency(toCurrency);
+              setToCurrencyFormat({
+                locale: navigator.language,
+                currency: toCurrency,
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          } else {
+            try {
+              response = await axios.get(
+                apiURL + `/latest?from=${fromCurrency}&to=USD`,
+              );
+              setToCurrency("USD");
+              setToCurrencyFormat({
+                locale: navigator.language,
+                currency: "USD",
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
           setFromCurrency(response.data.base);
-          setToCurrency(toCurrency);
+
           setExchangeRate(Object.values(response.data.rates)[0]);
           setFromCurrencyFormat({
             locale: navigator.language,
             currency: fromCurrency,
           });
-          setToCurrencyFormat({
-            locale: navigator.language,
-            currency: toCurrency,
-          });
         } catch (error) {
           console.log(error);
         }
       } else {
-        try {
-          const response = await axios.get(apiURL + "/latest");
-          let options = [Object.keys(response.data.rates)];
-          options = options[0];
-          options = [
-            ...options.slice(0, 9),
-            response.data.base,
-            ...options.slice(9),
-          ];
+        if (toCurrency) {
+          try {
+            const response = await axios.get(apiURL + "/latest");
+            let options = [Object.keys(response.data.rates)];
+            options = options[0];
+            options = [
+              ...options.slice(0, 9),
+              response.data.base,
+              ...options.slice(9),
+            ];
 
-          setCurrencyOptions([...options]);
-          setFromCurrency(response.data.base);
-          setToCurrency(Object.keys(response.data.rates)[28]);
-          setExchangeRate(Object.values(response.data.rates)[28]);
-        } catch (error) {
-          console.log(error);
+            setCurrencyOptions([...options]);
+            setFromCurrency(response.data.base);
+          } catch (error) {
+            console.log(error);
+          }
+          try {
+            const response = await axios.get(
+              apiURL + `/latest?from=EUR&to=${toCurrency}`,
+            );
+            console.log(response);
+            setToCurrency(toCurrency);
+            setToCurrencyFormat({
+              locale: navigator.language,
+              currency: toCurrency,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          try {
+            const response = await axios.get(apiURL + "/latest");
+            let options = [Object.keys(response.data.rates)];
+            options = options[0];
+            options = [
+              ...options.slice(0, 9),
+              response.data.base,
+              ...options.slice(9),
+            ];
+
+            setCurrencyOptions([...options]);
+            setFromCurrency(response.data.base);
+            setToCurrency(Object.keys(response.data.rates)[28]);
+            setExchangeRate(Object.values(response.data.rates)[28]);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }
