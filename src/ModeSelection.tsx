@@ -9,9 +9,9 @@ interface ModeSelectionProps {
 export default function ModeSelection(props: ModeSelectionProps) {
   return (
     <div id="buttonContainer" className=" mx-auto w-80">
-      <ButtonGroup className="w-full">
+      <ButtonGroup className="w-full ">
         <Button
-          className=" my-6 inline-block w-1/2  px-4 py-2"
+          className=" my-6 inline-block w-1/2  px-4 py-2 "
           onClick={() => {
             props.handleConvert();
           }}

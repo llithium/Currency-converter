@@ -1,5 +1,5 @@
-import { Select, SelectItem } from "@nextui-org/react";
-import CurrencyInput from "react-currency-input-field";
+import { Input, Select, SelectItem } from "@nextui-org/react";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 export const flags = [
   "fi-au",
@@ -94,15 +94,20 @@ export default function CurrencyRow(props: CurrencyRatesProps) {
             })}
           </Select>
         </div>
-        <CurrencyInput
-          className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
-          name="amount"
-          value={props.fromAmount ? props.fromAmount : ""}
+        <Input
+          className=""
+          classNames={{
+            inputWrapper:
+              "dark:hover:bg-zinc-800/60 dark:bg-stone-950 h-14 w-80 rounded-xl dark:focus-within:bg-stone-950/60",
+          }}
+          startContent={<div>{getSymbolFromCurrency(props.fromCurrency)}</div>}
+          value={props.fromAmount ? props.fromAmount.toString() : ""}
           onValueChange={(value) => {
             props.onChangeFromAmount(value);
           }}
-          intlConfig={props.fromCurrencyFormat}
-          allowNegativeValue={false}
+          type="number"
+          placeholder="0.00"
+          labelPlacement="outside"
         />
       </div>
       <div className="optionContainter lg:ml-3">
@@ -134,15 +139,20 @@ export default function CurrencyRow(props: CurrencyRatesProps) {
             })}
           </Select>
         </div>
-        <CurrencyInput
-          className="h-14 w-80 rounded-xl px-3 text-small text-foreground"
-          name="amount"
-          value={props.toAmount ? props.toAmount : ""}
+        <Input
+          className=""
+          classNames={{
+            inputWrapper:
+              "dark:hover:bg-zinc-800/60 dark:bg-stone-950 h-14 w-80 rounded-xl dark:focus-within:bg-stone-950/60",
+          }}
+          startContent={<div>{getSymbolFromCurrency(props.toCurrency)}</div>}
+          value={props.toAmount ? props.toAmount.toString() : ""}
           onValueChange={(value) => {
             props.onChangeToAmount(value);
           }}
-          intlConfig={props.toCurrencyFormat}
-          allowNegativeValue={false}
+          type="number"
+          placeholder="0.00"
+          labelPlacement="outside"
         />
       </div>
     </div>
