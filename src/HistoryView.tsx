@@ -104,7 +104,7 @@ export default function HistoryView({
 }: HistoryViewProps) {
   const [histoyData, setHistoryData] = useState<DataObject[]>([]);
   const [date, setDate] = useState("");
-  const [selectedRange, setSelectedRange] = useState("1M");
+  const [selectedRange, setSelectedRange] = useState("");
   useEffect(() => {
     let { oneMonth } = getEarlierDates();
     setDate(oneMonth);
@@ -135,6 +135,7 @@ export default function HistoryView({
         }
 
         setHistoryData(newData);
+        setSelectedRange("1M");
       } catch (error) {
         console.log(error);
       }
@@ -145,7 +146,7 @@ export default function HistoryView({
   return (
     <>
       <div id="currencyRowContainer" className="xl:flex xl:flex-row">
-        <div className="optionContainter mb-6 lg:mb-0 lg:mr-3">
+        <div className="optionContainter mb-6 xl:mb-0 xl:mr-3">
           <div>
             <Select
               label="From"
@@ -174,7 +175,7 @@ export default function HistoryView({
             </Select>
           </div>
         </div>
-        <div className="optionContainter  lg:ml-3">
+        <div className="optionContainter  xl:ml-3">
           <div>
             <Select
               label="To"

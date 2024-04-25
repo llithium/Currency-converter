@@ -66,7 +66,7 @@ interface CurrencyRatesProps {
 export default function CurrencyRow(props: CurrencyRatesProps) {
   return (
     <div id="currencyRowContainer" className="xl:flex xl:flex-row">
-      <div className="optionContainter mb-6 lg:mr-3">
+      <div className="optionContainter mb-6 xl:mr-3">
         <div>
           <Select
             label="From"
@@ -110,7 +110,7 @@ export default function CurrencyRow(props: CurrencyRatesProps) {
           labelPlacement="outside"
         />
       </div>
-      <div className="optionContainter lg:ml-3">
+      <div className="optionContainter xl:ml-3">
         <div>
           <Select
             label="To"
