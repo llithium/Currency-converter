@@ -104,7 +104,7 @@ export default function HistoryView({
 }: HistoryViewProps) {
   const [histoyData, setHistoryData] = useState<DataObject[]>([]);
   const [date, setDate] = useState("");
-
+  const [selectedRange, setSelectedRange] = useState("1M");
   useEffect(() => {
     let { oneMonth } = getEarlierDates();
     setDate(oneMonth);
@@ -208,54 +208,60 @@ export default function HistoryView({
       <div id="buttonContainer" className=" mx-auto ">
         <ButtonGroup className="w-80">
           <Button
-            className=" my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1W" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               const { oneWeek } = getEarlierDates();
               setDate(oneWeek);
+              setSelectedRange("1W");
             }}
           >
             1W
           </Button>
           <Button
-            className="my-6  w-full min-w-12 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1M" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               const { oneMonth } = getEarlierDates();
               setDate(oneMonth);
+              setSelectedRange("1M");
             }}
           >
             1M
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               const { oneYear } = getEarlierDates();
               setDate(oneYear);
+              setSelectedRange("1Y");
             }}
           >
             1Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "5Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               const { fiveYears } = getEarlierDates();
               setDate(fiveYears);
+              setSelectedRange("5Y");
             }}
           >
             5Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "10Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               const { tenYears } = getEarlierDates();
               setDate(tenYears);
+              setSelectedRange("10Y");
             }}
           >
             10Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "All" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
             onClick={() => {
               setDate("1999-01-04");
+              setSelectedRange("All");
             }}
           >
             All
@@ -273,15 +279,25 @@ export default function HistoryView({
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
+            <YAxis domain={["auto", "auto"]} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#0c0a09",
+                border: "0px",
+                borderRadius: "12px",
+              }}
+              wrapperStyle={{
+                color: "#ffffff",
+              }}
+            />
             <Area
               type="monotone"
               dataKey="rate"
-              stroke="#8884d8"
-              fill="#8884d8"
+              stroke="#be185d"
+              fill="#be185d"
+              fillOpacity={0.6}
             />
           </AreaChart>
         </ResponsiveContainer>

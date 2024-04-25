@@ -125,9 +125,6 @@ function App() {
             console.log(error);
           }
           try {
-            const response = await axios.get(
-              apiURL + `/latest?from=EUR&to=${toCurrency}`,
-            );
             setToCurrency(toCurrency);
             setToCurrencyFormat({
               locale: navigator.language,
