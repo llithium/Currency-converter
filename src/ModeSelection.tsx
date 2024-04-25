@@ -9,9 +9,6 @@ interface ModeSelectionProps {
 export default function ModeSelection(props: ModeSelectionProps) {
   return (
     <div id="buttonContainer" className=" mx-auto w-80">
-      {/* <button onClick={props.handleConvert}>Convert</button>
-      <button onClick={props.handleViewRates}>View Rates</button> */}
-      {/* <Stack direction="row" spacing={2}> */}
       <ButtonGroup className="w-full">
         <Button
           className=" my-6 inline-block w-1/2  px-4 py-2"
@@ -38,7 +35,6 @@ export default function ModeSelection(props: ModeSelectionProps) {
           History
         </Button>
       </ButtonGroup>
-      {/* </Stack> */}
     </div>
   );
 }

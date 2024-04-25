@@ -160,6 +160,20 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setFromCurrencyFormat({
+      locale: navigator.language,
+      currency: fromCurrency,
+    });
+  }, [fromCurrency]);
+
+  useEffect(() => {
+    setToCurrencyFormat({
+      locale: navigator.language,
+      currency: toCurrency,
+    });
+  }, [toCurrency]);
+
+  useEffect(() => {
     if (fromCurrency != null && toCurrency != null) {
       async function setExchange() {
         try {
@@ -212,19 +226,11 @@ function App() {
         localStorage.setItem("fromCurrency", value);
         setSelectedFrom(keys.currentKey);
         localStorage.setItem("selectedFromCurrency", keys.currentKey);
-        setFromCurrencyFormat({
-          locale: navigator.language,
-          currency: value,
-        });
       } else {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
         setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
         localStorage.setItem("selectedtoCurrency", fromCurrency);
-        setToCurrencyFormat({
-          locale: navigator.language,
-          currency: fromCurrency,
-        });
         setFromCurrency(toCurrency);
         localStorage.setItem("fromCurrency", toCurrency);
         setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
@@ -232,10 +238,6 @@ function App() {
           "selectedFromCurrency",
           currencyOptions.indexOf(toCurrency).toString(),
         );
-        setFromCurrencyFormat({
-          locale: navigator.language,
-          currency: toCurrency,
-        });
       }
     } else {
     }
@@ -250,10 +252,7 @@ function App() {
         localStorage.setItem("toCurrency", value);
         setSelectedTo(keys.currentKey);
         localStorage.setItem("selectedToCurrency", keys.currentKey);
-        setToCurrencyFormat({
-          locale: navigator.language,
-          currency: value,
-        });
+        console.log(value);
       } else {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
@@ -262,10 +261,6 @@ function App() {
           "selectedToCurrency",
           currencyOptions.indexOf(fromCurrency).toString(),
         );
-        setToCurrencyFormat({
-          locale: navigator.language,
-          currency: fromCurrency,
-        });
         setFromCurrency(toCurrency);
         localStorage.setItem("fromCurrency", toCurrency);
         setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
@@ -273,10 +268,6 @@ function App() {
           "selectedFromCurrency",
           currencyOptions.indexOf(toCurrency).toString(),
         );
-        setFromCurrencyFormat({
-          locale: navigator.language,
-          currency: toCurrency,
-        });
       }
     } else {
     }
