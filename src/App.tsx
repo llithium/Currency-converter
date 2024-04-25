@@ -249,7 +249,6 @@ function App() {
         localStorage.setItem("toCurrency", value);
         setSelectedTo(keys.currentKey);
         localStorage.setItem("selectedToCurrency", keys.currentKey);
-        console.log(value);
       } else {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
