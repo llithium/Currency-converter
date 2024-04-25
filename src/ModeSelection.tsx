@@ -3,6 +3,7 @@ import { Button, ButtonGroup } from "@nextui-org/react";
 interface ModeSelectionProps {
   handleConvert: Function;
   handleViewRates: Function;
+  handleViewHistory: Function;
 }
 
 export default function ModeSelection(props: ModeSelectionProps) {
@@ -27,6 +28,14 @@ export default function ModeSelection(props: ModeSelectionProps) {
           }}
         >
           Rates
+        </Button>
+        <Button
+          className="my-6 inline-block w-1/2  px-4 py-2"
+          onClick={() => {
+            props.handleViewHistory();
+          }}
+        >
+          History
         </Button>
       </ButtonGroup>
       {/* </Stack> */}

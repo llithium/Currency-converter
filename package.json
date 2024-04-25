@@ -16,7 +16,8 @@
     "framer-motion": "^11.1.7",
     "react": "^18.2.0",
     "react-currency-input-field": "^3.8.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "recharts": "^2.12.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.79",

@@ -27,6 +27,7 @@ export default function CurrencyRates(props: CurrencyRatesProps) {
             selectedKeys={[props.selectedFrom]}
             onSelectionChange={(keys) => props.onChangeFromCurrency(keys)}
           >
+            {/* ? Consider adding full currency names from /currencies endpoint */}
             {props.currencyOptions.map((option, index) => {
               return (
                 <SelectItem

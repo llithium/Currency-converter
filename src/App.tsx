@@ -3,8 +3,9 @@ import CurrencyRow, { SelectKeys } from "./CurrencyRow";
 import axios from "axios";
 import CurrencyRates from "./CurrencyRates";
 import ModeSelection from "./ModeSelection";
+import HistoryView from "./HistoryView";
 
-const apiURL = "https://api.frankfurter.app";
+export const apiURL = "https://api.frankfurter.app";
 
 function App() {
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
@@ -21,7 +22,9 @@ function App() {
     locale: navigator.language,
     currency: "USD",
   });
-  const [viewRates, setViewRates] = useState(true);
+  const [viewRates, setViewRates] = useState(false);
+  const [viewConvert, setViewConvert] = useState(true);
+  const [viewHistory, setViewHistory] = useState(false);
   const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
   const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState<
     string[]
@@ -30,8 +33,6 @@ function App() {
   const [selectedTo, setSelectedTo] = useState("29");
   let toAmount: number | null, fromAmount: number | null;
   if (amountFrom) {
-    console.log(typeof amount);
-
     if (amount >= 0) {
       fromAmount = amount;
       toAmount = parseFloat((amount * exchangeRate).toFixed(2));
@@ -127,7 +128,6 @@ function App() {
             const response = await axios.get(
               apiURL + `/latest?from=EUR&to=${toCurrency}`,
             );
-            console.log(response);
             setToCurrency(toCurrency);
             setToCurrencyFormat({
               locale: navigator.language,
@@ -282,14 +282,23 @@ function App() {
     }
   }
   function handleViewRates() {
-    setViewRates(false);
+    setViewRates(true);
+    setViewConvert(false);
+    setViewHistory(false);
   }
   function handleConvert() {
-    setViewRates(true);
+    setViewConvert(true);
+    setViewRates(false);
+    setViewHistory(false);
+  }
+  function handleViewHistory() {
+    setViewConvert(false);
+    setViewRates(false);
+    setViewHistory(true);
   }
   return (
     <div className="h-screen min-h-screen">
-      {viewRates ? (
+      {viewConvert && (
         <>
           <div
             className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
@@ -298,6 +307,7 @@ function App() {
             <ModeSelection
               handleConvert={handleConvert}
               handleViewRates={handleViewRates}
+              handleViewHistory={handleViewHistory}
             />
 
             <CurrencyRow
@@ -317,14 +327,16 @@ function App() {
             />
           </div>
         </>
-      ) : (
+      )}
+      {viewRates && (
         <div
-          className="mx-auto flex h-screen min-h-screen w-full flex-col items-center  bg-content1 pb-12 "
+          className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
           id="contentContainer"
         >
           <ModeSelection
             handleConvert={handleConvert}
             handleViewRates={handleViewRates}
+            handleViewHistory={handleViewHistory}
           />
           <CurrencyRates
             viewExchangeRatesOptions={viewExchangeRatesOptions}
@@ -332,6 +344,29 @@ function App() {
             currencyOptions={currencyOptions}
             selectedFrom={selectedFrom}
             onChangeFromCurrency={handleChangeFromCurrency}
+          />
+        </div>
+      )}
+      {viewHistory && (
+        <div
+          className="mx-auto flex h-screen min-h-screen w-full flex-col items-center  bg-content1 pb-12 "
+          id="contentContainer"
+        >
+          <ModeSelection
+            handleConvert={handleConvert}
+            handleViewRates={handleViewRates}
+            handleViewHistory={handleViewHistory}
+          />
+          <HistoryView
+            currencyOptions={currencyOptions}
+            fromCurrency={fromCurrency}
+            toCurrency={toCurrency}
+            selectedFrom={selectedFrom}
+            selectedTo={selectedTo}
+            onChangeFromCurrency={handleChangeFromCurrency}
+            onChangeToCurrency={handleChangeToCurrency}
+            onChangeFromAmount={handleFromAmountChange}
+            onChangeToAmount={handleToAmountChange}
           />
         </div>
       )}
