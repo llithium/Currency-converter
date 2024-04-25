@@ -111,6 +111,10 @@ export default function HistoryView({
   }, []);
 
   useEffect(() => {
+    console.log(selectedRange);
+  }, [selectedRange]);
+
+  useEffect(() => {
     async function getHistory() {
       try {
         const response = await axios.get(
@@ -135,7 +139,7 @@ export default function HistoryView({
         }
 
         setHistoryData(newData);
-        setSelectedRange("1M");
+        selectedRange === "" && setSelectedRange("1M");
       } catch (error) {
         console.log(error);
       }
