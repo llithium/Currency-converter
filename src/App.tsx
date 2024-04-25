@@ -227,7 +227,10 @@ function App() {
         setToCurrency(fromCurrency);
         localStorage.setItem("toCurrency", fromCurrency);
         setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
-        localStorage.setItem("selectedtoCurrency", fromCurrency);
+        localStorage.setItem(
+          "selectedToCurrency",
+          currencyOptions.indexOf(fromCurrency).toString(),
+        );
         setFromCurrency(toCurrency);
         localStorage.setItem("fromCurrency", toCurrency);
         setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
@@ -236,7 +239,6 @@ function App() {
           currencyOptions.indexOf(toCurrency).toString(),
         );
       }
-    } else {
     }
   }
   function handleChangeToCurrency(keys: SelectKeys) {
