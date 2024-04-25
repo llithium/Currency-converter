@@ -11,7 +11,7 @@ export default function ModeSelection(props: ModeSelectionProps) {
     <div id="buttonContainer" className=" mx-auto w-80">
       <ButtonGroup className="w-full ">
         <Button
-          className=" my-6 inline-block w-1/2  px-4 py-2 "
+          className=" my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60 "
           onClick={() => {
             props.handleConvert();
           }}
@@ -19,7 +19,7 @@ export default function ModeSelection(props: ModeSelectionProps) {
           Conversion
         </Button>
         <Button
-          className="my-6 inline-block w-1/2  px-4 py-2"
+          className="my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
           onClick={() => {
             props.handleViewRates();
           }}
@@ -27,7 +27,7 @@ export default function ModeSelection(props: ModeSelectionProps) {
           Rates
         </Button>
         <Button
-          className="my-6 inline-block w-1/2  px-4 py-2"
+          className="my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
           onClick={() => {
             props.handleViewHistory();
           }}

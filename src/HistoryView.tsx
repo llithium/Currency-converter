@@ -208,7 +208,7 @@ export default function HistoryView({
       <div id="buttonContainer" className=" mx-auto ">
         <ButtonGroup className="w-80">
           <Button
-            className=" my-6 w-full  min-w-12  px-4 py-2"
+            className=" my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               const { oneWeek } = getEarlierDates();
               setDate(oneWeek);
@@ -217,7 +217,7 @@ export default function HistoryView({
             1W
           </Button>
           <Button
-            className="my-6  w-full min-w-12 px-4 py-2"
+            className="my-6  w-full min-w-12 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               const { oneMonth } = getEarlierDates();
               setDate(oneMonth);
@@ -226,7 +226,7 @@ export default function HistoryView({
             1M
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2"
+            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               const { oneYear } = getEarlierDates();
               setDate(oneYear);
@@ -235,7 +235,7 @@ export default function HistoryView({
             1Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2"
+            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               const { fiveYears } = getEarlierDates();
               setDate(fiveYears);
@@ -244,7 +244,7 @@ export default function HistoryView({
             5Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2"
+            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               const { tenYears } = getEarlierDates();
               setDate(tenYears);
@@ -253,7 +253,7 @@ export default function HistoryView({
             10Y
           </Button>
           <Button
-            className="my-6 w-full  min-w-12  px-4 py-2"
+            className="my-6 w-full  min-w-12  px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               setDate("1999-01-04");
             }}
