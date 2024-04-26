@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useEffect, useState } from "react";
-import { apiURL } from "./App";
+import { apiURL } from "./Root";
 import axios from "axios";
 
 interface HistoryResponse {
@@ -109,10 +109,6 @@ export default function HistoryView({
     let { oneMonth } = getEarlierDates();
     setDate(oneMonth);
   }, []);
-
-  useEffect(() => {
-    console.log(selectedRange);
-  }, [selectedRange]);
 
   useEffect(() => {
     async function getHistory() {

@@ -1,14 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.js";
+
 import "./index.css";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-import { NextUIProvider } from "@nextui-org/react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ErrorPage from "./routes/ErrorPage";
+import Root from "./routes/Root";
+import NoMatch from "./routes/NoMatch";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "*", element: <NoMatch /> },
+      {
+        errorElement: <ErrorPage />,
+        children: [],
+      },
+    ],
+  },
+]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <NextUIProvider>
-      <App />
-    </NextUIProvider>
+    <RouterProvider router={router} />,
   </React.StrictMode>,
 );

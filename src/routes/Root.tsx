@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import CurrencyRow, { SelectKeys } from "./CurrencyRow";
 import axios from "axios";
 import CurrencyRates from "./CurrencyRates";
-import ModeSelection from "./ModeSelection";
+import ModeSelection from "../ModeSelection";
 import HistoryView from "./HistoryView";
+import { NextUIProvider } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 
 export const apiURL = "https://api.frankfurter.app";
 
-function App() {
+function Root() {
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
@@ -49,6 +51,7 @@ function App() {
       fromAmount = 0;
     }
   }
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getExchange() {
@@ -286,9 +289,39 @@ function App() {
     setViewHistory(true);
   }
   return (
-    <div className="h-screen min-h-screen">
-      {viewConvert && (
-        <>
+    <NextUIProvider navigate={navigate}>
+      <div className="h-screen min-h-screen">
+        {viewConvert && (
+          <>
+            <div
+              className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
+              id="contentContainer"
+            >
+              <ModeSelection
+                handleConvert={handleConvert}
+                handleViewRates={handleViewRates}
+                handleViewHistory={handleViewHistory}
+              />
+
+              <CurrencyRow
+                currencyOptions={currencyOptions}
+                fromCurrency={fromCurrency}
+                toCurrency={toCurrency}
+                selectedFrom={selectedFrom}
+                selectedTo={selectedTo}
+                onChangeFromCurrency={handleChangeFromCurrency}
+                onChangeToCurrency={handleChangeToCurrency}
+                fromAmount={fromAmount}
+                toAmount={toAmount}
+                onChangeFromAmount={handleFromAmountChange}
+                onChangeToAmount={handleToAmountChange}
+                fromCurrencyFormat={fromCurrencyFormat}
+                toCurrencyFormat={toCurrencyFormat}
+              />
+            </div>
+          </>
+        )}
+        {viewRates && (
           <div
             className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
             id="contentContainer"
@@ -298,8 +331,26 @@ function App() {
               handleViewRates={handleViewRates}
               handleViewHistory={handleViewHistory}
             />
-
-            <CurrencyRow
+            <CurrencyRates
+              viewExchangeRatesOptions={viewExchangeRatesOptions}
+              viewExchangeRates={viewExchangeRates}
+              currencyOptions={currencyOptions}
+              selectedFrom={selectedFrom}
+              onChangeFromCurrency={handleChangeFromCurrency}
+            />
+          </div>
+        )}
+        {viewHistory && (
+          <div
+            className="mx-auto flex h-screen min-h-screen w-full flex-col items-center  bg-content1 pb-12 "
+            id="contentContainer"
+          >
+            <ModeSelection
+              handleConvert={handleConvert}
+              handleViewRates={handleViewRates}
+              handleViewHistory={handleViewHistory}
+            />
+            <HistoryView
               currencyOptions={currencyOptions}
               fromCurrency={fromCurrency}
               toCurrency={toCurrency}
@@ -307,60 +358,14 @@ function App() {
               selectedTo={selectedTo}
               onChangeFromCurrency={handleChangeFromCurrency}
               onChangeToCurrency={handleChangeToCurrency}
-              fromAmount={fromAmount}
-              toAmount={toAmount}
               onChangeFromAmount={handleFromAmountChange}
               onChangeToAmount={handleToAmountChange}
-              fromCurrencyFormat={fromCurrencyFormat}
-              toCurrencyFormat={toCurrencyFormat}
             />
           </div>
-        </>
-      )}
-      {viewRates && (
-        <div
-          className="mx-auto flex  h-full w-full flex-col items-center bg-content1 pb-12 "
-          id="contentContainer"
-        >
-          <ModeSelection
-            handleConvert={handleConvert}
-            handleViewRates={handleViewRates}
-            handleViewHistory={handleViewHistory}
-          />
-          <CurrencyRates
-            viewExchangeRatesOptions={viewExchangeRatesOptions}
-            viewExchangeRates={viewExchangeRates}
-            currencyOptions={currencyOptions}
-            selectedFrom={selectedFrom}
-            onChangeFromCurrency={handleChangeFromCurrency}
-          />
-        </div>
-      )}
-      {viewHistory && (
-        <div
-          className="mx-auto flex h-screen min-h-screen w-full flex-col items-center  bg-content1 pb-12 "
-          id="contentContainer"
-        >
-          <ModeSelection
-            handleConvert={handleConvert}
-            handleViewRates={handleViewRates}
-            handleViewHistory={handleViewHistory}
-          />
-          <HistoryView
-            currencyOptions={currencyOptions}
-            fromCurrency={fromCurrency}
-            toCurrency={toCurrency}
-            selectedFrom={selectedFrom}
-            selectedTo={selectedTo}
-            onChangeFromCurrency={handleChangeFromCurrency}
-            onChangeToCurrency={handleChangeToCurrency}
-            onChangeFromAmount={handleFromAmountChange}
-            onChangeToAmount={handleToAmountChange}
-          />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </NextUIProvider>
   );
 }
 
-export default App;
+export default Root;
