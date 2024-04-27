@@ -75,7 +75,7 @@ export interface LoaderData {
 }
 
 export default function ConversionPage() {
-  let { data, currencyOptions } = useLoaderData() as LoaderData;
+  const { data, currencyOptions } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [selectedFrom, setSelectedFrom] = useState("9");
@@ -87,13 +87,13 @@ export default function ConversionPage() {
     Object.values(data.rates)[28],
   );
 
-  let toAmount: number | null, fromAmount: number | null;
+  let toAmount: number, fromAmount: number;
   if (amountFrom) {
     if (amount >= 0) {
       fromAmount = amount;
       toAmount = parseFloat((amount * exchangeRate).toFixed(2));
     } else {
-      fromAmount = null;
+      fromAmount = 0;
       toAmount = 0;
     }
   } else {
@@ -101,24 +101,45 @@ export default function ConversionPage() {
       toAmount = amount;
       fromAmount = parseFloat((amount / exchangeRate).toFixed(2));
     } else {
-      toAmount = null;
+      toAmount = 0;
       fromAmount = 0;
     }
   }
 
   useEffect(() => {
-    const selectedFromCurrency = localStorage.getItem("selectedFromCurrency");
-    const selectedToCurrency = localStorage.getItem("selectedToCurrency");
-    const fromCurrency = localStorage.getItem("fromCurrency");
-    const toCurrency = localStorage.getItem("toCurrency");
-    const amount = localStorage.getItem("amount");
+    const localSelectedFromCurrency = localStorage.getItem(
+      "selectedFromCurrency",
+    );
+    const localSelectedToCurrency = localStorage.getItem("selectedToCurrency");
+    const localFromCurrency = localStorage.getItem("fromCurrency");
+    const localToCurrency = localStorage.getItem("toCurrency");
+    const localAmount = localStorage.getItem("amount");
+    const localAmountFrom = localStorage.getItem("amountFrom");
 
-    selectedFromCurrency && setSelectedFrom(selectedFromCurrency);
-    selectedToCurrency && setSelectedTo(selectedToCurrency);
-    fromCurrency && setFromCurrency(fromCurrency);
-    toCurrency && setToCurrency(toCurrency);
-    amount && setAmount(parseFloat(amount));
+    localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
+    localSelectedToCurrency && setSelectedTo(localSelectedToCurrency);
+    localFromCurrency && setFromCurrency(localFromCurrency);
+    localToCurrency && setToCurrency(localToCurrency);
+    localAmount && setAmount(parseFloat(localAmount));
+    if (localAmountFrom === "true") {
+      setAmountFrom(true);
+      fromAmount = amount;
+    } else if (localAmountFrom === "false") {
+      setAmountFrom(false);
+      toAmount = amount;
+    }
 
+    if (searchParams.has("amountFrom")) {
+      if (searchParams.get("amountFrom") === "true") {
+        setAmountFrom(true);
+        fromAmount = amount;
+      } else if (searchParams.get("amountFrom") === "false") {
+        setAmountFrom(false);
+        console.log(amount);
+
+        toAmount = amount;
+      }
+    }
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
       const from = parseInt(searchParams.get("from") as string);
@@ -301,7 +322,12 @@ export default function ConversionPage() {
               searchParams.set("amount", value);
               return searchParams;
             });
+            setSearchParams((searchParams) => {
+              searchParams.set("amountFrom", "true");
+              return searchParams;
+            });
             localStorage.setItem("amount", value);
+            localStorage.setItem("amountFrom", "true");
           }}
           type="number"
           placeholder="0.00"
@@ -352,7 +378,12 @@ export default function ConversionPage() {
               searchParams.set("amount", value);
               return searchParams;
             });
+            setSearchParams((searchParams) => {
+              searchParams.set("amountFrom", "false");
+              return searchParams;
+            });
             localStorage.setItem("amount", value);
+            localStorage.setItem("amountFrom", "false");
           }}
           type="number"
           placeholder="0.00"

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 
 export default function RatesPage() {
-  let { data, currencyOptions } = useLoaderData() as LoaderData;
+  const { currencyOptions } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [selectedFrom, setSelectedFrom] = useState("9");
   const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
@@ -15,10 +15,12 @@ export default function RatesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    const selectedFromCurrency = localStorage.getItem("selectedFromCurrency");
-    const fromCurrency = localStorage.getItem("fromCurrency");
-    selectedFromCurrency && setSelectedFrom(selectedFromCurrency);
-    fromCurrency && setFromCurrency(fromCurrency);
+    const localSelectedFromCurrency = localStorage.getItem(
+      "selectedFromCurrency",
+    );
+    const localFromCurrency = localStorage.getItem("fromCurrency");
+    localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
+    localFromCurrency && setFromCurrency(localFromCurrency);
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
       const from = parseInt(searchParams.get("from") as string);

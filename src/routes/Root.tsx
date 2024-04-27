@@ -7,11 +7,14 @@ function Root() {
   return (
     <NextUIProvider navigate={navigate}>
       <div id="buttonContainer" className=" mx-auto w-80">
-        <ButtonGroup className="w-full ">
+        <ButtonGroup className="w-full">
           <Button
             className=" my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60 "
             onClick={() => {
-              navigate("/");
+              navigate({
+                pathname: "/",
+                search: `${searchParams}`,
+              });
             }}
           >
             Conversion
