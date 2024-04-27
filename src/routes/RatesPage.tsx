@@ -1,15 +1,7 @@
-import { flags } from "./CurrencyRow";
+import { flags } from "./ConversionPage";
 import { Select, SelectItem } from "@nextui-org/react";
 
-interface CurrencyRatesProps {
-  viewExchangeRatesOptions: string[];
-  viewExchangeRates: number[];
-  currencyOptions: string[];
-  selectedFrom: string;
-  onChangeFromCurrency: Function;
-}
-
-export default function CurrencyRates(props: CurrencyRatesProps) {
+export default function RatesPage() {
   return (
     // ? Change to h-4/5 if issues on mobile
     <div
@@ -24,11 +16,11 @@ export default function CurrencyRates(props: CurrencyRatesProps) {
             classNames={{
               popoverContent: "bg-zinc-900 ",
             }}
-            selectedKeys={[props.selectedFrom]}
-            onSelectionChange={(keys) => props.onChangeFromCurrency(keys)}
+            selectedKeys={[selectedFrom]}
+            onSelectionChange={(keys) => onChangeFromCurrency(keys)}
           >
             {/* ? Consider adding full currency names from /currencies endpoint */}
-            {props.currencyOptions.map((option, index) => {
+            {currencyOptions.map((option, index) => {
               return (
                 <SelectItem
                   className="text-white"
@@ -48,7 +40,7 @@ export default function CurrencyRates(props: CurrencyRatesProps) {
 
       <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">
         <ul className="h-full overflow-auto rounded-lg">
-          {props.viewExchangeRatesOptions.map((option, index) => {
+          {viewExchangeRatesOptions.map((option, index) => {
             return (
               <li
                 className="ratesList border-b border-zinc-900/60 bg-zinc-800 px-4 py-1 font-semibold text-foreground lg:py-3"
@@ -61,7 +53,7 @@ export default function CurrencyRates(props: CurrencyRatesProps) {
                 {new Intl.NumberFormat(navigator.language, {
                   style: "currency",
                   currency: option,
-                }).format(props.viewExchangeRates[index])}{" "}
+                }).format(viewExchangeRates[index])}{" "}
               </li>
             );
           })}

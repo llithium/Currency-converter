@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Select, SelectItem } from "@nextui-org/react";
-import { flags } from "./CurrencyRow";
+import { apiURL, flags } from "./ConversionPage";
 import {
   AreaChart,
   Area,
@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useEffect, useState } from "react";
-import { apiURL } from "./Root";
 import axios from "axios";
 
 interface HistoryResponse {
@@ -24,18 +23,7 @@ interface HistoryResponse {
 interface Rate {
   [key: string]: number;
 }
-
-interface HistoryViewProps {
-  currencyOptions: string[];
-  fromCurrency: string;
-  toCurrency: string;
-  selectedFrom: string;
-  selectedTo: string;
-  onChangeFromCurrency: Function;
-  onChangeToCurrency: Function;
-  onChangeFromAmount: Function;
-  onChangeToAmount: Function;
-}
+angeToAmount: Function;
 
 interface DataObject {
   date: string;
@@ -93,15 +81,7 @@ function getEarlierDates() {
   return { oneWeek, oneMonth, oneYear, fiveYears, tenYears };
 }
 
-export default function HistoryView({
-  selectedFrom,
-  selectedTo,
-  currencyOptions,
-  onChangeFromCurrency,
-  onChangeToCurrency,
-  toCurrency,
-  fromCurrency,
-}: HistoryViewProps) {
+export default function HistoryPage() {
   const [histoyData, setHistoryData] = useState<DataObject[]>([]);
   const [date, setDate] = useState("");
   const [selectedRange, setSelectedRange] = useState("");
