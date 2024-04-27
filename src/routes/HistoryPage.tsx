@@ -160,9 +160,7 @@ export default function HistoryPage() {
         setHistoryData(newData);
         setIsLoading(false);
         selectedRange === "" && setSelectedRange("1M");
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getHistory();
   }, [fromCurrency, toCurrency, date]);
@@ -362,7 +360,7 @@ export default function HistoryPage() {
         <div id="buttonContainer" className=" mx-auto w-fit">
           <ButtonGroup className="w-80">
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1W" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1W" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneWeek } = getEarlierDates();
                 setDate(oneWeek);
@@ -376,7 +374,7 @@ export default function HistoryPage() {
               1W
             </Button>
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1M" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1M" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneMonth } = getEarlierDates();
                 setDate(oneMonth);
@@ -390,7 +388,7 @@ export default function HistoryPage() {
               1M
             </Button>
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "1Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneYear } = getEarlierDates();
                 setDate(oneYear);
@@ -404,7 +402,7 @@ export default function HistoryPage() {
               1Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "5Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "5Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { fiveYears } = getEarlierDates();
                 setDate(fiveYears);
@@ -418,7 +416,7 @@ export default function HistoryPage() {
               5Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "10Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "10Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { tenYears } = getEarlierDates();
                 setDate(tenYears);
@@ -432,7 +430,7 @@ export default function HistoryPage() {
               10Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12  px-4 py-2 ${selectedRange === "All" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "All" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 setDate("1999-01-04");
                 setSelectedRange("All");

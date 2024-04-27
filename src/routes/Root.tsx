@@ -6,10 +6,10 @@ function Root() {
   const [searchParams] = useSearchParams();
   return (
     <NextUIProvider navigate={navigate}>
-      <div id="buttonContainer" className=" mx-auto w-80">
+      <div id="buttonContainer" className="mx-auto w-80">
         <ButtonGroup className="w-full">
           <Button
-            className=" my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60 "
+            className="my-6 inline-block w-1/2 px-4 py-2 text-medium dark:bg-stone-950 dark:hover:bg-zinc-800/60 "
             onClick={() => {
               navigate({
                 pathname: "/",
@@ -20,7 +20,7 @@ function Root() {
             Conversion
           </Button>
           <Button
-            className="my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className="my-6 inline-block w-1/2 px-4 py-2 text-medium dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               navigate({
                 pathname: "/rates",
@@ -31,7 +31,7 @@ function Root() {
             Rates
           </Button>
           <Button
-            className="my-6 inline-block w-1/2 px-4 py-2 dark:bg-stone-950 dark:hover:bg-zinc-800/60"
+            className="my-6 inline-block w-1/2 px-4 py-2 text-medium dark:bg-stone-950 dark:hover:bg-zinc-800/60"
             onClick={() => {
               navigate({
                 pathname: "/history",
