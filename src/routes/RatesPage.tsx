@@ -7,7 +7,9 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 export default function RatesPage() {
   const { currencyOptions } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
+  const [toCurrency, setToCurrency] = useState("USD");
   const [selectedFrom, setSelectedFrom] = useState("9");
+  const [, setSelectedTo] = useState("29");
   const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
   const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState<
     string[]
@@ -19,12 +21,22 @@ export default function RatesPage() {
       "selectedFromCurrency",
     );
     const localFromCurrency = localStorage.getItem("fromCurrency");
+    const localSelectedToCurrency = localStorage.getItem("selectedToCurrency");
+    const localToCurrency = localStorage.getItem("toCurrency");
+
     localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
+    localSelectedToCurrency && setSelectedTo(localSelectedToCurrency);
     localFromCurrency && setFromCurrency(localFromCurrency);
+    localToCurrency && setToCurrency(localToCurrency);
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
       const from = parseInt(searchParams.get("from") as string);
       setFromCurrency(currencyOptions[from]);
+    }
+    if (searchParams.has("to")) {
+      setSelectedTo(searchParams.get("to") as string);
+      const to = parseInt(searchParams.get("to") as string);
+      setToCurrency(currencyOptions[to]);
     }
   }, []);
 
@@ -52,17 +64,50 @@ export default function RatesPage() {
     const value = exchangeRates[newKeys.currentKey];
 
     if (value) {
-      setFromCurrency(value);
-      localStorage.setItem("fromCurrency", value);
-      setSearchParams((searchParams) => {
-        searchParams.set("from", Object.values(newKeys)[0]);
-        return searchParams;
-      });
-      setSelectedFrom(newKeys.currentKey.toString());
-      localStorage.setItem(
-        "selectedFromCurrency",
-        newKeys.currentKey.toString(),
-      );
+      if (value !== toCurrency) {
+        setFromCurrency(value);
+        localStorage.setItem("fromCurrency", value);
+        setSearchParams((searchParams) => {
+          searchParams.set("from", Object.values(newKeys)[0]);
+          return searchParams;
+        });
+        setSelectedFrom(newKeys.currentKey.toString());
+        localStorage.setItem(
+          "selectedFromCurrency",
+          newKeys.currentKey.toString(),
+        );
+      } else {
+        setToCurrency(fromCurrency);
+        setSearchParams((searchParams) => {
+          searchParams.set(
+            "to",
+            currencyOptions.indexOf(fromCurrency).toString(),
+          );
+          return searchParams;
+        });
+        localStorage.setItem("toCurrency", fromCurrency);
+        setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
+        localStorage.setItem(
+          "selectedToCurrency",
+          currencyOptions.indexOf(fromCurrency).toString(),
+        );
+
+        setFromCurrency(toCurrency);
+        setSearchParams((searchParams) => {
+          searchParams.set(
+            "from",
+            currencyOptions.indexOf(toCurrency).toString(),
+          );
+          return searchParams;
+        });
+        localStorage.setItem("fromCurrency", toCurrency);
+        setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
+        localStorage.setItem(
+          "selectedFromCurrency",
+          currencyOptions.indexOf(toCurrency).toString(),
+        );
+      }
+    } else {
     }
   }
 

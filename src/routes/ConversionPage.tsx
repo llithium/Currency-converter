@@ -202,7 +202,10 @@ export default function ConversionPage() {
         });
         localStorage.setItem("toCurrency", fromCurrency);
         setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
-        localStorage.setItem("selectedToCurrency", fromCurrency);
+        localStorage.setItem(
+          "selectedToCurrency",
+          currencyOptions.indexOf(fromCurrency).toString(),
+        );
 
         setFromCurrency(toCurrency);
         setSearchParams((searchParams) => {
