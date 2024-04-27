@@ -1,11 +1,73 @@
-import { flags } from "./ConversionPage";
+import { useEffect, useState } from "react";
+import { LoaderData, SelectKeys, apiURL, flags } from "./ConversionPage";
 import { Select, SelectItem } from "@nextui-org/react";
+import axios from "axios";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 
 export default function RatesPage() {
+  let { data, currencyOptions } = useLoaderData() as LoaderData;
+  const [fromCurrency, setFromCurrency] = useState("EUR");
+  const [selectedFrom, setSelectedFrom] = useState("9");
+  const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
+  const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState<
+    string[]
+  >([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const selectedFromCurrency = localStorage.getItem("selectedFromCurrency");
+    const fromCurrency = localStorage.getItem("fromCurrency");
+    selectedFromCurrency && setSelectedFrom(selectedFromCurrency);
+    fromCurrency && setFromCurrency(fromCurrency);
+    if (searchParams.has("from")) {
+      setSelectedFrom(searchParams.get("from") as string);
+      const from = parseInt(searchParams.get("from") as string);
+      setFromCurrency(currencyOptions[from]);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function setRates() {
+      try {
+        const response = await axios.get(
+          apiURL + `/latest?from=${fromCurrency}`,
+        );
+
+        const rates = [Object.values<number>(response.data.rates)][0];
+        const ratesOptions = [Object.keys(response.data.rates)][0];
+        setViewExchangeRates([...rates]);
+        setViewExchangeRatesOptions([...ratesOptions]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setRates();
+  }, [fromCurrency]);
+
+  function handleChangeFromCurrency<Selection>(keys: Selection): any {
+    const newKeys = keys as SelectKeys;
+    const exchangeRates = currencyOptions;
+    const value = exchangeRates[newKeys.currentKey];
+
+    if (value) {
+      setFromCurrency(value);
+      localStorage.setItem("fromCurrency", value);
+      setSearchParams((searchParams) => {
+        searchParams.set("from", Object.values(newKeys)[0]);
+        return searchParams;
+      });
+      setSelectedFrom(newKeys.currentKey.toString());
+      localStorage.setItem(
+        "selectedFromCurrency",
+        newKeys.currentKey.toString(),
+      );
+    }
+  }
+
   return (
     // ? Change to h-4/5 if issues on mobile
     <div
-      className="h-5/6 w-fit lg:flex lg:flex-row"
+      className="mx-auto h-[calc(100vh-180px)] w-fit lg:flex lg:flex-row"
       id="currencyRatesContainer"
     >
       <div id="rateOptionContainer" className="optionContainter lg:mr-3">
@@ -17,7 +79,7 @@ export default function RatesPage() {
               popoverContent: "bg-zinc-900 ",
             }}
             selectedKeys={[selectedFrom]}
-            onSelectionChange={(keys) => onChangeFromCurrency(keys)}
+            onSelectionChange={handleChangeFromCurrency}
           >
             {/* ? Consider adding full currency names from /currencies endpoint */}
             {currencyOptions.map((option, index) => {

@@ -31,10 +31,12 @@ const router = createBrowserRouter([
           {
             path: "/rates",
             element: <RatesPage />,
+            loader: ConversionPageLoader,
           },
           {
             path: "/History",
             element: <HistoryPage />,
+            loader: ConversionPageLoader,
           },
           { path: "*", element: <NoMatch /> },
         ],

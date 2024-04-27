@@ -111,11 +111,13 @@ export default function ConversionPage() {
     const selectedToCurrency = localStorage.getItem("selectedToCurrency");
     const fromCurrency = localStorage.getItem("fromCurrency");
     const toCurrency = localStorage.getItem("toCurrency");
+    const amount = localStorage.getItem("amount");
 
     selectedFromCurrency && setSelectedFrom(selectedFromCurrency);
     selectedToCurrency && setSelectedTo(selectedToCurrency);
     fromCurrency && setFromCurrency(fromCurrency);
     toCurrency && setToCurrency(toCurrency);
+    amount && setAmount(parseFloat(amount));
 
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
@@ -299,6 +301,7 @@ export default function ConversionPage() {
               searchParams.set("amount", value);
               return searchParams;
             });
+            localStorage.setItem("amount", value);
           }}
           type="number"
           placeholder="0.00"
@@ -349,6 +352,7 @@ export default function ConversionPage() {
               searchParams.set("amount", value);
               return searchParams;
             });
+            localStorage.setItem("amount", value);
           }}
           type="number"
           placeholder="0.00"
