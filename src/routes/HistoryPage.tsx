@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
+import { currencyFlags } from "./RatesPage";
 
 interface HistoryResponse {
   amount: number;
@@ -83,7 +84,7 @@ function getEarlierDates() {
 }
 
 export default function HistoryPage() {
-  const { currencyOptions } = useLoaderData() as LoaderData;
+  const { currencyOptions, currencyNames } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [histoyData, setHistoryData] = useState<DataObject[]>([]);
@@ -302,6 +303,11 @@ export default function HistoryPage() {
                 classNames={{
                   popoverContent: "bg-zinc-900",
                 }}
+                startContent={
+                  <span
+                    className={`exchangeRate fi ${currencyFlags[fromCurrency]} relative rounded-sm`}
+                  ></span>
+                }
                 selectedKeys={[selectedFrom]}
                 onSelectionChange={handleChangeFromCurrency}
               >
@@ -310,14 +316,14 @@ export default function HistoryPage() {
                     <SelectItem
                       className="text-white"
                       key={index}
-                      value={option}
+                      value={option + " - " + currencyNames[index]}
                       startContent={
                         <span
                           className={`fi ${flags[index]} rounded-sm`}
                         ></span>
                       }
                     >
-                      {option}
+                      {option + " - " + currencyNames[index]}
                     </SelectItem>
                   );
                 })}
@@ -333,6 +339,11 @@ export default function HistoryPage() {
                 classNames={{
                   popoverContent: "bg-zinc-900",
                 }}
+                startContent={
+                  <span
+                    className={`exchangeRate fi ${currencyFlags[toCurrency]} relative rounded-sm`}
+                  ></span>
+                }
                 value={toCurrency}
                 selectedKeys={[selectedTo]}
                 onSelectionChange={handleChangeToCurrency}
@@ -342,14 +353,14 @@ export default function HistoryPage() {
                     <SelectItem
                       className="text-white"
                       key={index}
-                      value={option}
+                      value={option + " - " + currencyNames[index]}
                       startContent={
                         <span
                           className={`fi ${flags[index]} rounded-sm`}
                         ></span>
                       }
                     >
-                      {option}
+                      {option + " - " + currencyNames[index]}
                     </SelectItem>
                   );
                 })}

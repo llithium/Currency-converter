@@ -3,6 +3,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { currencyFlags } from "./RatesPage";
 
 export const flags = [
   "fi-au",
@@ -42,14 +43,16 @@ export const apiURL = "https://api.frankfurter.app";
 
 export async function ConversionPageLoader() {
   try {
-    let response = await axios.get(apiURL + "/latest");
-    let options = [Object.keys(response.data.rates)][0];
-    options = [...options.slice(0, 9), response.data.base, ...options.slice(9)];
-    const currencyOptions = [...options];
+    const response = await axios.get(apiURL + "/latest");
+    const currencyOptionsResponce = await axios.get(apiURL + "/currencies");
+    const currencyOptions = Object.keys(currencyOptionsResponce.data);
+    const currencyNames = Object.values(currencyOptionsResponce.data);
     const data = response.data;
+
     return {
       data,
       currencyOptions,
+      currencyNames,
     };
   } catch (error) {
     console.log(error);
@@ -72,10 +75,12 @@ export interface ResponseData {
 export interface LoaderData {
   data: ResponseData;
   currencyOptions: string[];
+  currencyNames: string[];
 }
 
 export default function ConversionPage() {
-  const { data, currencyOptions } = useLoaderData() as LoaderData;
+  const { data, currencyOptions, currencyNames } =
+    useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [selectedFrom, setSelectedFrom] = useState("9");
@@ -291,6 +296,11 @@ export default function ConversionPage() {
             classNames={{
               popoverContent: "bg-zinc-900",
             }}
+            startContent={
+              <span
+                className={`exchangeRate fi ${currencyFlags[fromCurrency]} relative rounded-sm`}
+              ></span>
+            }
             selectedKeys={[selectedFrom]}
             onSelectionChange={handleChangeFromCurrency}
           >
@@ -299,12 +309,12 @@ export default function ConversionPage() {
                 <SelectItem
                   className="text-white"
                   key={index}
-                  value={option}
+                  value={option + " - " + currencyNames[index]}
                   startContent={
                     <span className={`fi ${flags[index]} rounded-sm`}></span>
                   }
                 >
-                  {option}
+                  {option + " - " + currencyNames[index]}
                 </SelectItem>
               );
             })}
@@ -346,6 +356,11 @@ export default function ConversionPage() {
             classNames={{
               popoverContent: "bg-zinc-900",
             }}
+            startContent={
+              <span
+                className={`exchangeRate fi ${currencyFlags[toCurrency]} relative rounded-sm`}
+              ></span>
+            }
             value={toCurrency}
             selectedKeys={[selectedTo]}
             onSelectionChange={handleChangeToCurrency}
@@ -355,12 +370,12 @@ export default function ConversionPage() {
                 <SelectItem
                   className="text-white"
                   key={index}
-                  value={option}
+                  value={option + currencyNames[index]}
                   startContent={
                     <span className={`fi ${flags[index]} rounded-sm`}></span>
                   }
                 >
-                  {option}
+                  {option + " - " + currencyNames[index]}
                 </SelectItem>
               );
             })}

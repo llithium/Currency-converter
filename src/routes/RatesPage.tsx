@@ -6,7 +6,7 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
 
 export default function RatesPage() {
-  const { currencyOptions } = useLoaderData() as LoaderData;
+  const { currencyOptions, currencyNames } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [selectedFrom, setSelectedFrom] = useState("9");
@@ -126,6 +126,11 @@ export default function RatesPage() {
             classNames={{
               popoverContent: "bg-zinc-900 ",
             }}
+            startContent={
+              <span
+                className={`exchangeRate fi ${currencyFlags[fromCurrency]} relative rounded-sm`}
+              ></span>
+            }
             selectedKeys={[selectedFrom]}
             onSelectionChange={handleChangeFromCurrency}
           >
@@ -135,12 +140,12 @@ export default function RatesPage() {
                 <SelectItem
                   className="text-white"
                   key={index}
-                  value={option}
+                  value={option + " - " + currencyNames[index]}
                   startContent={
                     <span className={`fi ${flags[index]} rounded-sm`}></span>
                   }
                 >
-                  {option}
+                  {option + " - " + currencyNames[index]}
                 </SelectItem>
               );
             })}
@@ -169,7 +174,7 @@ export default function RatesPage() {
   );
 }
 
-const currencyFlags: { [key: string]: string } = {
+export const currencyFlags: { [key: string]: string } = {
   AUD: "fi-au",
   BGN: "fi-bg",
   BRL: "fi-br",
