@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LoaderData, SelectKeys, apiURL, flags } from "./ConversionPage";
+import { LoaderData, SelectKeys, apiURL } from "./ConversionPage";
 import { Select, SelectItem } from "@nextui-org/react";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
@@ -142,7 +142,9 @@ export default function RatesPage() {
                   key={index}
                   value={option + " - " + currencyNames[index]}
                   startContent={
-                    <span className={`fi ${flags[index]} rounded-sm`}></span>
+                    <span
+                      className={`fi ${currencyFlags[option]} rounded-sm`}
+                    ></span>
                   }
                 >
                   {option + " - " + currencyNames[index]}

@@ -5,40 +5,6 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { currencyFlags } from "./RatesPage";
 
-export const flags = [
-  "fi-au",
-  "fi-bg",
-  "fi-br",
-  "fi-ca",
-  "fi-ch",
-  "fi-cn",
-  "fi-cz",
-  "fi-dk",
-  "fi-eu",
-  "fi-gb",
-  "fi-hk",
-  "fi-hu",
-  "fi-id",
-  "fi-il",
-  "fi-in",
-  "fi-is",
-  "fi-jp",
-  "fi-kr",
-  "fi-mx",
-  "fi-my",
-  "fi-no",
-  "fi-nz",
-  "fi-ph",
-  "fi-pl",
-  "fi-ro",
-  "fi-se",
-  "fi-sg",
-  "fi-th",
-  "fi-tr",
-  "fi-us",
-  "fi-za",
-];
-
 export const apiURL = "https://api.frankfurter.app";
 
 export async function ConversionPageLoader() {
@@ -311,7 +277,9 @@ export default function ConversionPage() {
                   key={index}
                   value={option + " - " + currencyNames[index]}
                   startContent={
-                    <span className={`fi ${flags[index]} rounded-sm`}></span>
+                    <span
+                      className={`fi ${currencyFlags[option]} rounded-sm`}
+                    ></span>
                   }
                 >
                   {option + " - " + currencyNames[index]}
@@ -372,7 +340,9 @@ export default function ConversionPage() {
                   key={index}
                   value={option + currencyNames[index]}
                   startContent={
-                    <span className={`fi ${flags[index]} rounded-sm`}></span>
+                    <span
+                      className={`fi ${currencyFlags[option]} rounded-sm`}
+                    ></span>
                   }
                 >
                   {option + " - " + currencyNames[index]}

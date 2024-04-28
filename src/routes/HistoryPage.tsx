@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Select, SelectItem } from "@nextui-org/react";
-import { LoaderData, SelectKeys, apiURL, flags } from "./ConversionPage";
+import { LoaderData, SelectKeys, apiURL } from "./ConversionPage";
 import {
   AreaChart,
   Area,
@@ -319,7 +319,7 @@ export default function HistoryPage() {
                       value={option + " - " + currencyNames[index]}
                       startContent={
                         <span
-                          className={`fi ${flags[index]} rounded-sm`}
+                          className={`fi ${currencyFlags[option]} rounded-sm`}
                         ></span>
                       }
                     >
@@ -356,7 +356,7 @@ export default function HistoryPage() {
                       value={option + " - " + currencyNames[index]}
                       startContent={
                         <span
-                          className={`fi ${flags[index]} rounded-sm`}
+                          className={`fi ${currencyFlags[option]} rounded-sm`}
                         ></span>
                       }
                     >
