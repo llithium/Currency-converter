@@ -3,6 +3,7 @@ import { LoaderData, SelectKeys, apiURL, flags } from "./ConversionPage";
 import { Select, SelectItem } from "@nextui-org/react";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 export default function RatesPage() {
   const { currencyOptions } = useLoaderData() as LoaderData;
@@ -155,14 +156,10 @@ export default function RatesPage() {
                 className="ratesList border-b border-zinc-900/60 bg-zinc-800 px-4 py-1 font-semibold text-foreground lg:py-3"
                 key={index}
               >
-                {" "}
                 <span
-                  className={`exchangeRate fi ${currencyToFlag(option)} mr-2  rounded-sm`}
+                  className={`exchangeRate fi ${currencyFlags[option]} mr-2  rounded-sm`}
                 ></span>
-                {new Intl.NumberFormat(navigator.language, {
-                  style: "currency",
-                  currency: option,
-                }).format(viewExchangeRates[index])}{" "}
+                {getSymbolFromCurrency(option)} {viewExchangeRates[index]}
               </li>
             );
           })}
@@ -172,103 +169,36 @@ export default function RatesPage() {
   );
 }
 
-function currencyToFlag(country: string) {
-  switch (country) {
-    case "AUD":
-      return "fi-au";
-      break;
-    case "BGN":
-      return "fi-bg";
-      break;
-    case "BRL":
-      return "fi-br";
-      break;
-    case "CAD":
-      return "fi-ca";
-      break;
-    case "CHF":
-      return "fi-ch";
-      break;
-    case "CNY":
-      return "fi-cn";
-      break;
-    case "CZK":
-      return "fi-cz";
-      break;
-    case "DKK":
-      return "fi-dk";
-      break;
-    case "GBP":
-      return "fi-gb";
-      break;
-    case "EUR":
-      return "fi-eu";
-      break;
-    case "HKD":
-      return "fi-hk";
-      break;
-    case "HUF":
-      return "fi-hu";
-      break;
-    case "IDR":
-      return "fi-id";
-      break;
-    case "ILS":
-      return "fi-il";
-      break;
-    case "INR":
-      return "fi-in";
-      break;
-    case "ISK":
-      return "fi-is";
-      break;
-    case "JPY":
-      return "fi-jp";
-      break;
-    case "KRW":
-      return "fi-kr";
-      break;
-    case "MXN":
-      return "fi-mx";
-      break;
-    case "MYR":
-      return "fi-my";
-      break;
-    case "NOK":
-      return "fi-no";
-      break;
-    case "NZD":
-      return "fi-nz";
-      break;
-    case "PHP":
-      return "fi-ph";
-      break;
-    case "PLN":
-      return "fi-pl";
-      break;
-    case "RON":
-      return "fi-ro";
-      break;
-    case "SEK":
-      return "fi-se";
-      break;
-    case "SGD":
-      return "fi-sg";
-      break;
-    case "THB":
-      return "fi-th";
-      break;
-    case "TRY":
-      return "fi-tr";
-      break;
-    case "USD":
-      return "fi-us";
-      break;
-    case "ZAR":
-      return "fi-za";
-      break;
-
-    default:
-      break;
-  }
-}
+const currencyFlags: { [key: string]: string } = {
+  AUD: "fi-au",
+  BGN: "fi-bg",
+  BRL: "fi-br",
+  CAD: "fi-ca",
+  CHF: "fi-ch",
+  CNY: "fi-cn",
+  CZK: "fi-cz",
+  DKK: "fi-dk",
+  GBP: "fi-gb",
+  EUR: "fi-eu",
+  HKD: "fi-hk",
+  HUF: "fi-hu",
+  IDR: "fi-id",
+  ILS: "fi-il",
+  INR: "fi-in",
+  ISK: "fi-is",
+  JPY: "fi-jp",
+  KRW: "fi-kr",
+  MXN: "fi-mx",
+  MYR: "fi-my",
+  NOK: "fi-no",
+  NZD: "fi-nz",
+  PHP: "fi-ph",
+  PLN: "fi-pl",
+  RON: "fi-ro",
+  SEK: "fi-se",
+  SGD: "fi-sg",
+  THB: "fi-th",
+  TRY: "fi-tr",
+  USD: "fi-us",
+  ZAR: "fi-za",
+};
