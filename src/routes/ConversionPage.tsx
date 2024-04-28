@@ -14,8 +14,8 @@ export const flags = [
   "fi-cn",
   "fi-cz",
   "fi-dk",
-  "fi-gb",
   "fi-eu",
+  "fi-gb",
   "fi-hk",
   "fi-hu",
   "fi-id",
@@ -83,7 +83,7 @@ export default function ConversionPage() {
     useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [selectedFrom, setSelectedFrom] = useState("9");
+  const [selectedFrom, setSelectedFrom] = useState("8");
   const [selectedTo, setSelectedTo] = useState("29");
   const [searchParams, setSearchParams] = useSearchParams();
   const [amount, setAmount] = useState(1);
