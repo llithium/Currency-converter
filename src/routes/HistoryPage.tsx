@@ -299,7 +299,7 @@ export default function HistoryPage() {
               <Select
                 label="From"
                 name="from"
-                className="w-80 max-w-xs text-foreground"
+                className="w-80 max-w-xs text-lg text-foreground"
                 classNames={{
                   popoverContent: "bg-zinc-900",
                 }}
@@ -335,7 +335,7 @@ export default function HistoryPage() {
               <Select
                 label="To"
                 name="to"
-                className="w-80 max-w-xs text-foreground"
+                className="w-80 max-w-xs text-lg text-foreground"
                 classNames={{
                   popoverContent: "bg-zinc-900",
                 }}

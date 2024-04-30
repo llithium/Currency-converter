@@ -122,7 +122,7 @@ export default function RatesPage() {
         <div className="mb-6">
           <Select
             label="Select Currency"
-            className="w-80 max-w-xs text-foreground"
+            className="w-80 max-w-xs text-lg text-foreground"
             classNames={{
               popoverContent: "bg-zinc-900 ",
             }}

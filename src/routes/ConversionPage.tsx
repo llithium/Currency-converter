@@ -1,4 +1,4 @@
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
@@ -53,29 +53,10 @@ export default function ConversionPage() {
   const [selectedTo, setSelectedTo] = useState("29");
   const [searchParams, setSearchParams] = useSearchParams();
   const [amount, setAmount] = useState(1);
-  const [amountFrom, setAmountFrom] = useState(true);
   const [exchangeRate, setExchangeRate] = useState(
     Object.values(data.rates)[28],
   );
-
-  let toAmount: number, fromAmount: number;
-  if (amountFrom) {
-    if (amount >= 0) {
-      fromAmount = amount;
-      toAmount = parseFloat((amount * exchangeRate).toFixed(2));
-    } else {
-      fromAmount = 0;
-      toAmount = 0;
-    }
-  } else {
-    if (amount >= 0) {
-      toAmount = amount;
-      fromAmount = parseFloat((amount / exchangeRate).toFixed(2));
-    } else {
-      toAmount = 0;
-      fromAmount = 0;
-    }
-  }
+  const [toAmount, setToAmount] = useState<number>(0);
 
   useEffect(() => {
     const localSelectedFromCurrency = localStorage.getItem(
@@ -85,32 +66,13 @@ export default function ConversionPage() {
     const localFromCurrency = localStorage.getItem("fromCurrency");
     const localToCurrency = localStorage.getItem("toCurrency");
     const localAmount = localStorage.getItem("amount");
-    const localAmountFrom = localStorage.getItem("amountFrom");
 
     localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
     localSelectedToCurrency && setSelectedTo(localSelectedToCurrency);
     localFromCurrency && setFromCurrency(localFromCurrency);
     localToCurrency && setToCurrency(localToCurrency);
     localAmount && setAmount(parseFloat(localAmount));
-    if (localAmountFrom === "true") {
-      setAmountFrom(true);
-      fromAmount = amount;
-    } else if (localAmountFrom === "false") {
-      setAmountFrom(false);
-      toAmount = amount;
-    }
 
-    if (searchParams.has("amountFrom")) {
-      if (searchParams.get("amountFrom") === "true") {
-        setAmountFrom(true);
-        fromAmount = amount;
-      } else if (searchParams.get("amountFrom") === "false") {
-        setAmountFrom(false);
-        console.log(amount);
-
-        toAmount = amount;
-      }
-    }
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
       const from = parseInt(searchParams.get("from") as string);
@@ -143,6 +105,14 @@ export default function ConversionPage() {
       setExchange();
     }
   }, [fromCurrency, toCurrency]);
+
+  useEffect(() => {
+    if (amount > 0) {
+      setToAmount(parseFloat((amount * exchangeRate).toFixed(2)));
+    } else {
+      setToAmount(0);
+    }
+  }, [amount]);
 
   function handleChangeFromCurrency<Selection>(keys: Selection): any {
     const newKeys = keys as SelectKeys;
@@ -248,17 +218,43 @@ export default function ConversionPage() {
     }
   }
 
+  function swap() {
+    setToCurrency(fromCurrency);
+    setSearchParams((searchParams) => {
+      searchParams.set("to", currencyOptions.indexOf(fromCurrency).toString());
+      return searchParams;
+    });
+    localStorage.setItem("toCurrency", fromCurrency);
+    setSelectedTo(currencyOptions.indexOf(fromCurrency).toString());
+    localStorage.setItem(
+      "selectedToCurrency",
+      currencyOptions.indexOf(fromCurrency).toString(),
+    );
+
+    setFromCurrency(toCurrency);
+    setSearchParams((searchParams) => {
+      searchParams.set("from", currencyOptions.indexOf(toCurrency).toString());
+      return searchParams;
+    });
+    localStorage.setItem("fromCurrency", toCurrency);
+    setSelectedFrom(currencyOptions.indexOf(toCurrency).toString());
+    localStorage.setItem(
+      "selectedFromCurrency",
+      currencyOptions.indexOf(toCurrency).toString(),
+    );
+  }
+
   return (
     <div
       id="currencyRowContainer"
       className="mx-auto w-fit xl:flex xl:flex-row"
     >
-      <div className="optionContainter mb-6 xl:mr-3">
+      <div className="optionContainter  xl:mr-3">
         <div>
           <Select
             label="From"
             name="from"
-            className="max-w-xs text-foreground"
+            className="max-w-xs text-lg text-foreground"
             classNames={{
               popoverContent: "bg-zinc-900",
             }}
@@ -289,38 +285,47 @@ export default function ConversionPage() {
           </Select>
         </div>
         <Input
-          className=""
+          className="mt-2"
           classNames={{
             inputWrapper:
               "dark:hover:bg-zinc-800/60 dark:bg-stone-950 h-14 w-80 rounded-xl dark:focus-within:bg-stone-950/60",
           }}
           startContent={<div>{getSymbolFromCurrency(fromCurrency)}</div>}
-          value={fromAmount ? fromAmount.toString() : ""}
+          value={
+            amount
+              ? amount.toLocaleString("fullwide", { useGrouping: false })
+              : "0"
+          }
           onValueChange={(value) => {
-            setAmount(parseFloat(value));
-            setAmountFrom(true);
+            setAmount(parseFloat(parseFloat(value).toFixed(2)));
             setSearchParams((searchParams) => {
               searchParams.set("amount", value);
               return searchParams;
             });
-            setSearchParams((searchParams) => {
-              searchParams.set("amountFrom", "true");
-              return searchParams;
-            });
             localStorage.setItem("amount", value);
-            localStorage.setItem("amountFrom", "true");
           }}
           type="number"
+          min={0}
+          max={999999999999999}
           placeholder="0.00"
+          step={0.01}
           labelPlacement="outside"
         />
+        <div className="flex w-80 justify-center">
+          <p className="w-fit  py-2">
+            {getSymbolFromCurrency(fromCurrency)}1.00 {fromCurrency}
+            {" = "}
+            {getSymbolFromCurrency(toCurrency)}
+            {exchangeRate} {toCurrency}
+          </p>
+        </div>
       </div>
       <div className="optionContainter xl:ml-3">
         <div>
           <Select
             label="To"
             name="to"
-            className="max-w-xs text-foreground"
+            className="max-w-xs text-lg text-foreground"
             classNames={{
               popoverContent: "bg-zinc-900",
             }}
@@ -351,32 +356,47 @@ export default function ConversionPage() {
             })}
           </Select>
         </div>
-        <Input
-          className=""
-          classNames={{
-            inputWrapper:
-              "dark:hover:bg-zinc-800/60 dark:bg-stone-950 h-14 w-80 rounded-xl dark:focus-within:bg-stone-950/60",
+        <Button
+          className="mt-2 h-14 w-80 bg-pink-950"
+          // color="secondary"
+          variant="solid"
+          onClick={() => {
+            swap();
           }}
-          startContent={<div>{getSymbolFromCurrency(toCurrency)}</div>}
-          value={toAmount ? toAmount.toString() : ""}
-          onValueChange={(value) => {
-            setAmount(parseFloat(value));
-            setAmountFrom(false);
-            setSearchParams((searchParams) => {
-              searchParams.set("amount", value);
-              return searchParams;
-            });
-            setSearchParams((searchParams) => {
-              searchParams.set("amountFrom", "false");
-              return searchParams;
-            });
-            localStorage.setItem("amount", value);
-            localStorage.setItem("amountFrom", "false");
-          }}
-          type="number"
-          placeholder="0.00"
-          labelPlacement="outside"
-        />
+          startContent={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M3.586 16.5L8.5 11.586L9.914 13l-2.5 2.5H19.5v2H7.414l2.5 2.5L8.5 21.414zm.914-10h12.086l-2.5-2.5L15.5 2.586L20.414 7.5L15.5 12.414L14.086 11l2.5-2.5H4.5z"
+              />
+            </svg>
+          }
+        >
+          Swap
+        </Button>
+        <div className="flex w-80 flex-wrap justify-center pt-2">
+          <p className="w-full pb-1 opacity-70">
+            {getSymbolFromCurrency(fromCurrency)}{" "}
+            {amount
+              ? new Intl.NumberFormat(navigator.language, {
+                  currency: toCurrency,
+                }).format(parseFloat(amount.toFixed(2)))
+              : 0}{" "}
+            {fromCurrency} =
+          </p>
+          <p className="text-xl font-extrabold">
+            {getSymbolFromCurrency(toCurrency)}{" "}
+            {new Intl.NumberFormat(navigator.language, {
+              currency: toCurrency,
+            }).format(parseFloat(toAmount.toFixed(2)))}{" "}
+            {currencyNames[parseInt(selectedTo)]}
+          </p>
+        </div>
       </div>
     </div>
   );
