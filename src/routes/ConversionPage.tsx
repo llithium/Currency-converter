@@ -112,7 +112,7 @@ export default function ConversionPage() {
     } else {
       setToAmount(0);
     }
-  }, [amount]);
+  }, [amount, exchangeRate]);
 
   function handleChangeFromCurrency<Selection>(keys: Selection): any {
     const newKeys = keys as SelectKeys;
