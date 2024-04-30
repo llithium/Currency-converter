@@ -3,7 +3,8 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { currencyFlags } from "./RatesPage";
+import pluralizeCurrencyName from "../utils/pluralizeCurrencyName";
+import { currencyFlags } from "../utils/currencyFlags";
 
 export const apiURL = "https://api.frankfurter.app";
 
@@ -218,7 +219,7 @@ export default function ConversionPage() {
     }
   }
 
-  function swap() {
+  function swapCurrencies() {
     setToCurrency(fromCurrency);
     setSearchParams((searchParams) => {
       searchParams.set("to", currencyOptions.indexOf(fromCurrency).toString());
@@ -361,7 +362,7 @@ export default function ConversionPage() {
           // color="secondary"
           variant="solid"
           onClick={() => {
-            swap();
+            swapCurrencies();
           }}
           startContent={
             <svg
@@ -394,7 +395,10 @@ export default function ConversionPage() {
             {new Intl.NumberFormat(navigator.language, {
               currency: toCurrency,
             }).format(parseFloat(toAmount.toFixed(2)))}{" "}
-            {currencyNames[parseInt(selectedTo)]}
+            {pluralizeCurrencyName(
+              currencyNames[parseInt(selectedTo)],
+              toAmount,
+            )}
           </p>
         </div>
       </div>

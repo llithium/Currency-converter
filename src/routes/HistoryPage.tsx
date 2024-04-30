@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
-import { currencyFlags } from "./RatesPage";
+import { currencyFlags } from "../utils/currencyFlags";
 
 interface HistoryResponse {
   amount: number;
@@ -25,7 +25,6 @@ interface HistoryResponse {
 interface Rate {
   [key: string]: number;
 }
-angeToAmount: Function;
 
 interface DataObject {
   date: string;

@@ -4,6 +4,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
+import { currencyFlags } from "../utils/currencyFlags";
 
 export default function RatesPage() {
   const { currencyOptions, currencyNames } = useLoaderData() as LoaderData;
@@ -47,7 +48,6 @@ export default function RatesPage() {
         const response = await axios.get(
           apiURL + `/latest?from=${fromCurrency}`,
         );
-
         const rates = [Object.values<number>(response.data.rates)][0];
         const ratesOptions = [Object.keys(response.data.rates)][0];
         setViewExchangeRates([...rates]);
@@ -92,7 +92,6 @@ export default function RatesPage() {
           "selectedToCurrency",
           currencyOptions.indexOf(fromCurrency).toString(),
         );
-
         setFromCurrency(toCurrency);
         setSearchParams((searchParams) => {
           searchParams.set(
@@ -111,9 +110,7 @@ export default function RatesPage() {
     } else {
     }
   }
-
   return (
-    // ? Change to h-4/5 if issues on mobile
     <div
       className="mx-auto h-[calc(100vh-180px)] w-fit lg:flex lg:flex-row"
       id="currencyRatesContainer"
@@ -134,7 +131,6 @@ export default function RatesPage() {
             selectedKeys={[selectedFrom]}
             onSelectionChange={handleChangeFromCurrency}
           >
-            {/* ? Consider adding full currency names from /currencies endpoint */}
             {currencyOptions.map((option, index) => {
               return (
                 <SelectItem
@@ -154,7 +150,6 @@ export default function RatesPage() {
           </Select>
         </div>
       </div>
-
       <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">
         <ul className="h-full overflow-auto rounded-lg">
           {viewExchangeRatesOptions.map((option, index) => {
@@ -175,37 +170,3 @@ export default function RatesPage() {
     </div>
   );
 }
-
-export const currencyFlags: { [key: string]: string } = {
-  AUD: "fi-au",
-  BGN: "fi-bg",
-  BRL: "fi-br",
-  CAD: "fi-ca",
-  CHF: "fi-ch",
-  CNY: "fi-cn",
-  CZK: "fi-cz",
-  DKK: "fi-dk",
-  EUR: "fi-eu",
-  GBP: "fi-gb",
-  HKD: "fi-hk",
-  HUF: "fi-hu",
-  IDR: "fi-id",
-  ILS: "fi-il",
-  INR: "fi-in",
-  ISK: "fi-is",
-  JPY: "fi-jp",
-  KRW: "fi-kr",
-  MXN: "fi-mx",
-  MYR: "fi-my",
-  NOK: "fi-no",
-  NZD: "fi-nz",
-  PHP: "fi-ph",
-  PLN: "fi-pl",
-  RON: "fi-ro",
-  SEK: "fi-se",
-  SGD: "fi-sg",
-  THB: "fi-th",
-  TRY: "fi-tr",
-  USD: "fi-us",
-  ZAR: "fi-za",
-};
