@@ -112,7 +112,7 @@ export default function RatesPage() {
   }
   return (
     <div
-      className="mx-auto h-[calc(100vh-180px)] w-fit lg:flex lg:flex-row"
+      className="mx-auto h-[calc(100svh-180px)] w-fit lg:flex lg:flex-row"
       id="currencyRatesContainer"
     >
       <div id="rateOptionContainer" className="optionContainter lg:mr-3">

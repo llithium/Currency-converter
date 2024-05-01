@@ -291,7 +291,7 @@ export default function HistoryPage() {
 
   return (
     <>
-      <div className="flex  h-[calc(100vh-120px)]   flex-col items-center   ">
+      <div className="flex  h-[calc(100svh-120px)]   flex-col items-center   ">
         <div className="mx-auto w-fit xl:flex xl:flex-row">
           <div className="optionContainter mb-6 xl:mb-0 xl:mr-3">
             <div>
