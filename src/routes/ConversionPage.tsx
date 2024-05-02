@@ -68,24 +68,26 @@ export default function ConversionPage() {
     const localToCurrency = localStorage.getItem("toCurrency");
     const localAmount = localStorage.getItem("amount");
 
-    localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
-    localSelectedToCurrency && setSelectedTo(localSelectedToCurrency);
-    localFromCurrency && setFromCurrency(localFromCurrency);
-    localToCurrency && setToCurrency(localToCurrency);
-    localAmount && setAmount(parseFloat(localAmount));
-
     if (searchParams.has("from")) {
       setSelectedFrom(searchParams.get("from") as string);
       const from = parseInt(searchParams.get("from") as string);
       setFromCurrency(currencyOptions[from]);
+    } else {
+      localSelectedFromCurrency && setSelectedFrom(localSelectedFromCurrency);
+      localFromCurrency && setFromCurrency(localFromCurrency);
     }
     if (searchParams.has("to")) {
       setSelectedTo(searchParams.get("to") as string);
       const to = parseInt(searchParams.get("to") as string);
       setToCurrency(currencyOptions[to]);
+    } else {
+      localSelectedToCurrency && setSelectedTo(localSelectedToCurrency);
+      localToCurrency && setToCurrency(localToCurrency);
     }
     if (searchParams.has("amount")) {
       setAmount(parseFloat(searchParams.get("amount") as string));
+    } else {
+      localAmount && setAmount(parseFloat(localAmount));
     }
   }, []);
 
