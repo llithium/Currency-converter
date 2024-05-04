@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { LoaderData, SelectKeys, apiURL } from "./ConversionPage";
-import { Select, SelectItem } from "@nextui-org/react";
+import { LoaderData, apiURL } from "./ConversionPage";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -59,24 +59,21 @@ export default function RatesPage() {
     setRates();
   }, [fromCurrency]);
 
-  function handleChangeFromCurrency<Selection>(keys: Selection): any {
-    const newKeys = keys as SelectKeys;
+  function handleChangeFromCurrency<Selection>(key: Selection): any {
+    const newKey = key as string;
     const exchangeRates = currencyOptions;
-    const value = exchangeRates[newKeys.currentKey];
+    const value = exchangeRates[parseFloat(newKey)];
 
     if (value) {
       if (value !== toCurrency) {
         setFromCurrency(value);
         localStorage.setItem("fromCurrency", value);
         setSearchParams((searchParams) => {
-          searchParams.set("from", Object.values(newKeys)[0]);
+          searchParams.set("from", newKey);
           return searchParams;
         });
-        setSelectedFrom(newKeys.currentKey.toString());
-        localStorage.setItem(
-          "selectedFromCurrency",
-          newKeys.currentKey.toString(),
-        );
+        setSelectedFrom(newKey);
+        localStorage.setItem("selectedFromCurrency", newKey);
       } else {
         setToCurrency(fromCurrency);
         setSearchParams((searchParams) => {
@@ -92,6 +89,7 @@ export default function RatesPage() {
           "selectedToCurrency",
           currencyOptions.indexOf(fromCurrency).toString(),
         );
+
         setFromCurrency(toCurrency);
         setSearchParams((searchParams) => {
           searchParams.set(
@@ -117,7 +115,7 @@ export default function RatesPage() {
     >
       <div id="rateOptionContainer" className="optionContainter lg:mr-3">
         <div className="mb-6">
-          <Select
+          <Autocomplete
             label="Select Currency"
             className="w-80 max-w-xs text-lg text-foreground"
             classNames={{
@@ -128,12 +126,12 @@ export default function RatesPage() {
                 className={`exchangeRate fi ${currencyFlags[fromCurrency]} relative rounded-sm`}
               ></span>
             }
-            selectedKeys={[selectedFrom]}
+            selectedKey={selectedFrom}
             onSelectionChange={handleChangeFromCurrency}
           >
             {currencyOptions.map((option, index) => {
               return (
-                <SelectItem
+                <AutocompleteItem
                   className="text-white"
                   key={index}
                   value={option + " - " + currencyNames[index]}
@@ -144,10 +142,10 @@ export default function RatesPage() {
                   }
                 >
                   {option + " - " + currencyNames[index]}
-                </SelectItem>
+                </AutocompleteItem>
               );
             })}
-          </Select>
+          </Autocomplete>
         </div>
       </div>
       <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">

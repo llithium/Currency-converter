@@ -1,4 +1,9 @@
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Input,
+} from "@nextui-org/react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import axios from "axios";
 import { useLoaderData, useSearchParams } from "react-router-dom";
@@ -24,12 +29,6 @@ export async function ConversionPageLoader() {
   } catch (error) {
     console.log(error);
   }
-}
-
-export interface SelectKeys {
-  0: string;
-  anchorKey: number;
-  currentKey: number;
 }
 
 export interface ResponseData {
@@ -117,24 +116,21 @@ export default function ConversionPage() {
     }
   }, [amount, exchangeRate]);
 
-  function handleChangeFromCurrency<Selection>(keys: Selection): any {
-    const newKeys = keys as SelectKeys;
+  function handleChangeFromCurrency<Selection>(key: Selection): any {
+    const newKey = key as string;
     const exchangeRates = currencyOptions;
-    const value = exchangeRates[newKeys.currentKey];
+    const value = exchangeRates[parseFloat(newKey)];
 
     if (value) {
       if (value !== toCurrency) {
         setFromCurrency(value);
         localStorage.setItem("fromCurrency", value);
         setSearchParams((searchParams) => {
-          searchParams.set("from", Object.values(newKeys)[0]);
+          searchParams.set("from", newKey);
           return searchParams;
         });
-        setSelectedFrom(newKeys.currentKey.toString());
-        localStorage.setItem(
-          "selectedFromCurrency",
-          newKeys.currentKey.toString(),
-        );
+        setSelectedFrom(newKey);
+        localStorage.setItem("selectedFromCurrency", newKey);
       } else {
         setToCurrency(fromCurrency);
         setSearchParams((searchParams) => {
@@ -170,23 +166,22 @@ export default function ConversionPage() {
     }
   }
 
-  function handleChangeToCurrency<Selection>(keys: Selection): any {
-    const newKeys = keys as SelectKeys;
+  function handleChangeToCurrency<Selection>(key: Selection): any {
+    const newKey = key as string;
     const exchangeRates = currencyOptions;
-    const value = exchangeRates[newKeys.currentKey];
+    const value = exchangeRates[parseInt(newKey)];
+    console.log();
+
     if (value) {
       if (value !== fromCurrency) {
         setToCurrency(value);
         setSearchParams((searchParams) => {
-          searchParams.set("to", Object.values(newKeys)[0]);
+          searchParams.set("to", newKey);
           return searchParams;
         });
         localStorage.setItem("toCurrency", value);
-        setSelectedTo(newKeys.currentKey.toString());
-        localStorage.setItem(
-          "selectedToCurrency",
-          newKeys.currentKey.toString(),
-        );
+        setSelectedTo(newKey);
+        localStorage.setItem("selectedToCurrency", newKey);
       } else {
         setToCurrency(fromCurrency);
 
@@ -254,7 +249,7 @@ export default function ConversionPage() {
     >
       <div className="optionContainter  xl:mr-3">
         <div>
-          <Select
+          <Autocomplete
             label="From"
             name="from"
             className="max-w-xs text-lg text-foreground"
@@ -266,12 +261,12 @@ export default function ConversionPage() {
                 className={`exchangeRate fi ${currencyFlags[fromCurrency]} relative rounded-sm`}
               ></span>
             }
-            selectedKeys={[selectedFrom]}
+            selectedKey={selectedFrom}
             onSelectionChange={handleChangeFromCurrency}
           >
             {currencyOptions.map((option, index) => {
               return (
-                <SelectItem
+                <AutocompleteItem
                   className="text-white"
                   key={index}
                   value={option + " - " + currencyNames[index]}
@@ -282,10 +277,10 @@ export default function ConversionPage() {
                   }
                 >
                   {option + " - " + currencyNames[index]}
-                </SelectItem>
+                </AutocompleteItem>
               );
             })}
-          </Select>
+          </Autocomplete>
         </div>
         <Input
           className="mt-2"
@@ -325,7 +320,7 @@ export default function ConversionPage() {
       </div>
       <div className="optionContainter xl:ml-3">
         <div>
-          <Select
+          <Autocomplete
             label="To"
             name="to"
             className="max-w-xs text-lg text-foreground"
@@ -338,12 +333,12 @@ export default function ConversionPage() {
               ></span>
             }
             value={toCurrency}
-            selectedKeys={[selectedTo]}
+            selectedKey={selectedTo}
             onSelectionChange={handleChangeToCurrency}
           >
             {currencyOptions.map((option, index) => {
               return (
-                <SelectItem
+                <AutocompleteItem
                   className="text-white"
                   key={index}
                   value={option + currencyNames[index]}
@@ -354,10 +349,10 @@ export default function ConversionPage() {
                   }
                 >
                   {option + " - " + currencyNames[index]}
-                </SelectItem>
+                </AutocompleteItem>
               );
             })}
-          </Select>
+          </Autocomplete>
         </div>
         <Button
           className="mt-2 h-14 w-80 bg-pink-950"
