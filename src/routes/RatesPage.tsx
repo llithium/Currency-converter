@@ -10,7 +10,7 @@ export default function RatesPage() {
   const { currencyOptions, currencyNames } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [selectedFrom, setSelectedFrom] = useState("9");
+  const [selectedFrom, setSelectedFrom] = useState("8");
   const [, setSelectedTo] = useState("29");
   const [viewExchangeRates, setViewExchangeRates] = useState<number[]>([]);
   const [viewExchangeRatesOptions, setViewExchangeRatesOptions] = useState<
@@ -61,8 +61,7 @@ export default function RatesPage() {
 
   function handleChangeFromCurrency<Selection>(key: Selection): any {
     const newKey = key as string;
-    const exchangeRates = currencyOptions;
-    const value = exchangeRates[parseFloat(newKey)];
+    const value = currencyOptions[parseFloat(newKey)];
 
     if (value) {
       if (value !== toCurrency) {

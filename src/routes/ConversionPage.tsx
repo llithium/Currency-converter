@@ -16,9 +16,9 @@ export const apiURL = "https://api.frankfurter.app";
 export async function ConversionPageLoader() {
   try {
     const response = await axios.get(apiURL + "/latest");
-    const currencyOptionsResponce = await axios.get(apiURL + "/currencies");
-    const currencyOptions = Object.keys(currencyOptionsResponce.data);
-    const currencyNames = Object.values(currencyOptionsResponce.data);
+    const currencyOptionsResponse = await axios.get(apiURL + "/currencies");
+    const currencyOptions = Object.keys(currencyOptionsResponse.data);
+    const currencyNames: string[] = Object.values(currencyOptionsResponse.data);
     const data = response.data;
 
     return {
@@ -118,8 +118,7 @@ export default function ConversionPage() {
 
   function handleChangeFromCurrency<Selection>(key: Selection): any {
     const newKey = key as string;
-    const exchangeRates = currencyOptions;
-    const value = exchangeRates[parseFloat(newKey)];
+    const value = currencyOptions[parseFloat(newKey)];
 
     if (value) {
       if (value !== toCurrency) {
@@ -168,8 +167,7 @@ export default function ConversionPage() {
 
   function handleChangeToCurrency<Selection>(key: Selection): any {
     const newKey = key as string;
-    const exchangeRates = currencyOptions;
-    const value = exchangeRates[parseInt(newKey)];
+    const value = currencyOptions[parseInt(newKey)];
     console.log();
 
     if (value) {

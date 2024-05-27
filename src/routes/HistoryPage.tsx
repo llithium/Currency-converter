@@ -91,10 +91,10 @@ export default function HistoryPage() {
   const { currencyOptions, currencyNames } = useLoaderData() as LoaderData;
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
-  const [histoyData, setHistoryData] = useState<DataObject[]>([]);
+  const [historyData, setHistoryData] = useState<DataObject[]>([]);
   const [date, setDate] = useState("");
   const [selectedRange, setSelectedRange] = useState("");
-  const [selectedFrom, setSelectedFrom] = useState("9");
+  const [selectedFrom, setSelectedFrom] = useState("8");
   const [selectedTo, setSelectedTo] = useState("29");
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -192,8 +192,7 @@ export default function HistoryPage() {
 
   function handleChangeFromCurrency<Selection>(key: Selection): any {
     const newKey = key as string;
-    const exchangeRates = currencyOptions;
-    const value = exchangeRates[parseFloat(newKey)];
+    const value = currencyOptions[parseFloat(newKey)];
 
     if (value) {
       if (value !== toCurrency) {
@@ -242,8 +241,7 @@ export default function HistoryPage() {
 
   function handleChangeToCurrency<Selection>(key: Selection): any {
     const newKey = key as string;
-    const exchangeRates = currencyOptions;
-    const value = exchangeRates[parseInt(newKey)];
+    const value = currencyOptions[parseInt(newKey)];
     console.log();
 
     if (value) {
@@ -459,7 +457,7 @@ export default function HistoryPage() {
           {!isLoading && (
             <ResponsiveContainer>
               <AreaChart
-                data={histoyData}
+                data={historyData}
                 margin={{
                   top: 10,
                   right: 30,
