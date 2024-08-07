@@ -112,7 +112,7 @@ export default function RatesPage() {
       className="mx-auto h-[calc(100svh-180px)] w-fit lg:flex lg:flex-row"
       id="currencyRatesContainer"
     >
-      <div id="rateOptionContainer" className="optionContainter lg:mr-3">
+      <div id="rateOptionContainer" className="optionContainer lg:mr-3">
         <div className="mb-6">
           <Autocomplete
             label="Select Currency"
@@ -147,7 +147,7 @@ export default function RatesPage() {
           </Autocomplete>
         </div>
       </div>
-      <div className="ratesOptionContainter h-full max-h-full w-80 rounded-lg lg:ml-3">
+      <div className="ratesOptionContainer h-full max-h-full w-80 rounded-lg lg:ml-3">
         <ul className="h-full overflow-auto rounded-lg">
           {viewExchangeRatesOptions.map((option, index) => {
             return (
@@ -156,7 +156,7 @@ export default function RatesPage() {
                 key={index}
               >
                 <span
-                  className={`exchangeRate fi ${currencyFlags[option]} mr-2  rounded-sm`}
+                  className={`exchangeRate fi ${currencyFlags[option]} mr-2 rounded-sm`}
                 ></span>
                 {getSymbolFromCurrency(option)} {viewExchangeRates[index]}
               </li>

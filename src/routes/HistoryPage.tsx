@@ -179,9 +179,9 @@ export default function HistoryPage() {
       const dataPoint = [];
       const datePair = [];
       const ratePair = [];
-      datePair.push("date");
+      datePair.push("Date");
       datePair.push(key);
-      ratePair.push("rate");
+      ratePair.push("Rate");
       ratePair.push(rates[key][toCurrency]);
       dataPoint.push(datePair, ratePair);
       const dataObject: DataObject = Object.fromEntries(dataPoint);
@@ -290,9 +290,9 @@ export default function HistoryPage() {
 
   return (
     <>
-      <div className="flex  h-[calc(100svh-120px)]   flex-col items-center   ">
+      <div className="flex h-[calc(100svh-120px)] flex-col items-center">
         <div className="mx-auto w-fit xl:flex xl:flex-row">
-          <div className="optionContainter mb-6 xl:mb-0 xl:mr-3">
+          <div className="optionContainer mb-6 xl:mb-0 xl:mr-3">
             <div>
               <Autocomplete
                 label="From"
@@ -328,7 +328,7 @@ export default function HistoryPage() {
               </Autocomplete>
             </div>
           </div>
-          <div className="optionContainter  xl:ml-3">
+          <div className="optionContainer xl:ml-3">
             <div>
               <Autocomplete
                 label="To"
@@ -366,10 +366,10 @@ export default function HistoryPage() {
             </div>
           </div>
         </div>
-        <div id="buttonContainer" className=" mx-auto w-fit">
+        <div id="buttonContainer" className="mx-auto w-fit">
           <ButtonGroup className="w-80">
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1W" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1W" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneWeek } = getEarlierDates();
                 setDate(oneWeek);
@@ -383,7 +383,7 @@ export default function HistoryPage() {
               1W
             </Button>
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1M" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1M" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneMonth } = getEarlierDates();
                 setDate(oneMonth);
@@ -397,7 +397,7 @@ export default function HistoryPage() {
               1M
             </Button>
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "1Y" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { oneYear } = getEarlierDates();
                 setDate(oneYear);
@@ -411,7 +411,7 @@ export default function HistoryPage() {
               1Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "5Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "5Y" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { fiveYears } = getEarlierDates();
                 setDate(fiveYears);
@@ -425,7 +425,7 @@ export default function HistoryPage() {
               5Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "10Y" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "10Y" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 const { tenYears } = getEarlierDates();
                 setDate(tenYears);
@@ -439,7 +439,7 @@ export default function HistoryPage() {
               10Y
             </Button>
             <Button
-              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "All" ? "dark:bg-pink-950" : "dark:bg-stone-950  dark:hover:bg-zinc-800/60"}`}
+              className={`my-6 w-full min-w-12 px-4 py-2 text-medium ${selectedRange === "All" ? "dark:bg-pink-950" : "dark:bg-stone-950 dark:hover:bg-zinc-800/60"}`}
               onClick={() => {
                 setDate("1999-01-04");
                 setSelectedRange("All");
@@ -459,31 +459,53 @@ export default function HistoryPage() {
               <AreaChart
                 data={historyData}
                 margin={{
-                  top: 10,
-                  right: 30,
-                  left: 20,
-                  bottom: 0,
+                  left: 12,
+                  right: 12,
                 }}
               >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="date" />
-                <YAxis domain={["auto", "auto"]} />
+                <CartesianGrid stroke="#27272a" vertical={false} />
+                <XAxis
+                  dataKey="Date"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  interval={"preserveStartEnd"}
+                  tick={{ fill: "#f8f8f8" }}
+                  minTickGap={6}
+                />
+                <YAxis
+                  type="number"
+                  scale={"auto"}
+                  tickCount={8}
+                  // domain={[
+                  //   (dataMin: number) => Math.max(0, dataMin * 0.95),
+                  //   (dataMax: number) => dataMax * 1.02,
+                  // ]}
+                  domain={["auto", "auto"]}
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tick={{ fill: "#f8f8f8" }}
+                  // interval={"preserveStartEnd"}
+                  tickFormatter={(value: number) => value.toFixed(2)}
+                />
                 <Tooltip
+                  cursor={false}
                   contentStyle={{
                     backgroundColor: "#0c0a09",
                     border: "0px",
                     borderRadius: "12px",
                   }}
                   wrapperStyle={{
-                    color: "#ffffff",
+                    color: "#f8f8f8",
                   }}
                 />
                 <Area
-                  type="monotone"
-                  dataKey="rate"
+                  type="linear"
+                  dataKey="Rate"
                   stroke="#be185d"
                   fill="#be185d"
-                  fillOpacity={0.6}
+                  fillOpacity={0.8}
                 />
               </AreaChart>
             </ResponsiveContainer>

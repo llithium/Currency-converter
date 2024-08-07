@@ -245,7 +245,7 @@ export default function ConversionPage() {
       id="currencyRowContainer"
       className="mx-auto w-fit xl:flex xl:flex-row"
     >
-      <div className="optionContainter  xl:mr-3">
+      <div className="optionContainer xl:mr-3">
         <div>
           <Autocomplete
             label="From"
@@ -308,7 +308,7 @@ export default function ConversionPage() {
           labelPlacement="outside"
         />
         <div className="flex w-80 justify-center">
-          <p className="w-fit  py-2">
+          <p className="w-fit py-2">
             {getSymbolFromCurrency(fromCurrency)}1.00 {fromCurrency}
             {" = "}
             {getSymbolFromCurrency(toCurrency)}
@@ -316,7 +316,7 @@ export default function ConversionPage() {
           </p>
         </div>
       </div>
-      <div className="optionContainter xl:ml-3">
+      <div className="optionContainer xl:ml-3">
         <div>
           <Autocomplete
             label="To"
